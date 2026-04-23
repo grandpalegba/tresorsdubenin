@@ -1,26 +1,40 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Hero } from "@/components/quest/Hero";
+import { Pillars } from "@/components/quest/Pillars";
+import { Journey } from "@/components/quest/Journey";
+import { Guardians } from "@/components/quest/Guardians";
+import { CtaFinal } from "@/components/quest/CtaFinal";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Libérez les Trésors de la Terre Mère — Quête Sacrée du Bénin" },
+      {
+        name: "description",
+        content:
+          "Une quête mythologique afro-futuriste : retrouvez les trésors perdus du Bénin, choisissez votre destin parmi les 4 Piliers et obtenez la bénédiction des 6 Gardiens.",
+      },
+      { property: "og:title", content: "Libérez les Trésors de la Terre Mère" },
+      {
+        property: "og:description",
+        content: "Une quête mythologique pour orchestrer le retour sacré des trésors béninois.",
+      },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
 function Index() {
-  return <PlaceholderIndex />;
+  return (
+    <main className="relative">
+      <Hero />
+      <Pillars />
+      <Journey />
+      <Guardians />
+      <CtaFinal />
+      <footer className="py-10 text-center text-xs uppercase tracking-[0.4em] text-[var(--gold)]/40 font-display border-t border-[var(--gold)]/10">
+        ✦ Quête du Trésor — Terre Mère ✦
+      </footer>
+    </main>
+  );
 }
