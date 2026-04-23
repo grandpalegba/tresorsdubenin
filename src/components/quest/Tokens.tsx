@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
-import { BookOpen, Eye, Coins, Scale, Lock, Sparkles } from "lucide-react";
+import { BookOpen, Eye, Coins, Scale, Sparkles, Lock, CheckCircle2 } from "lucide-react";
+import treasureMask from "@/assets/treasure-mask.jpg";
+import treasureScepter from "@/assets/treasure-scepter.jpg";
 
 const TOKENS = [
   {
@@ -40,25 +42,105 @@ const TOKENS = [
   },
 ];
 
-const FEATURED_TREASURE = {
-  name: "Le Trône Royal d'Abomey",
+// Trésor en cours de libération — étape actuelle
+const ACTIVE_TREASURE = {
+  name: "Le Masque Royal d'Abomey",
   origin: "Royaume du Dahomey · XIXᵉ siècle",
-  status: "En captivité — Musée du Quai Branly, Paris",
+  status: "En captivité — Phase II : Traversée des Mers",
   story:
-    "Symbole vivant du pouvoir royal, ce trône fut arraché à Abomey lors du sac de 1892. Pour libérer son retour sacré, il faut accumuler les jetons des quatre dimensions.",
-  requirements: [
-    { token: "Connaissance", required: 320, current: 184, icon: BookOpen },
-    { token: "Conscience", required: 280, current: 142, icon: Eye },
-    { token: "Engagement", required: 450, current: 196, icon: Coins },
-    { token: "Souveraineté", required: 220, current: 88, icon: Scale },
+    "Arraché à Abomey en 1892, ce masque sacré attend sa délivrance. Chaque appel envoyé par les joueurs rapproche son retour vers la terre des ancêtres.",
+  image: treasureMask,
+  costPerCall: [
+    { token: "Connaissance", amount: 30, icon: BookOpen, color: "var(--gold)" },
+    { token: "Conscience", amount: 10, icon: Eye, color: "var(--ocher)" },
+    { token: "Engagement", amount: 16, icon: Coins, color: "var(--ember)" },
+    { token: "Souveraineté", amount: 25, icon: Scale, color: "var(--gold-deep)" },
   ],
+  callsRequiredPerStage: 60,
+  callsCurrent: 38, // sur l'étape en cours
 };
 
+// Trésor déjà libéré, en cours de retour — frise 6 étapes
+const RETURNING_TREASURE = {
+  name: "Le Sceptre Sacré du Roi Béhanzin",
+  origin: "Royaume du Dahomey · 1890",
+  story:
+    "Libéré par 360 appels collectifs. Il chemine désormais à travers les six bénédictions divines avant de retrouver sa terre.",
+  image: treasureScepter,
+  stages: [
+    { phase: "I", name: "Ouverture", deity: "GrandPa Legba", calls: 60 },
+    { phase: "II", name: "Traversée", deity: "Abuela Wata", calls: 60 },
+    { phase: "III", name: "Réveil", deity: "Avô Heviosso", calls: 60 },
+    { phase: "IV", name: "Enracinement", deity: "Baba Sakpata", calls: 42 },
+    { phase: "V", name: "Forge", deity: "Babu Gu", calls: 0 },
+    { phase: "VI", name: "Retour", deity: "Nonna Minona", calls: 0 },
+  ],
+  currentStage: 3, // index 0-based : étape IV en cours
+};
+
+// Cercle de progression d'appels (arc SVG)
+function CallArc({ current, required, size = 220 }: { current: number; required: number; size?: number }) {
+  const pct = Math.min(100, Math.round((current / required) * 100));
+  const stroke = 12;
+  const radius = (size - stroke) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const dash = (pct / 100) * circumference;
+
+  return (
+    <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="-rotate-90">
+        <defs>
+          <linearGradient id="arc-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="var(--gold)" />
+            <stop offset="100%" stopColor="var(--ember)" />
+          </linearGradient>
+        </defs>
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="var(--gold)"
+          strokeOpacity="0.15"
+          strokeWidth={stroke}
+          fill="none"
+        />
+        <motion.circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="url(#arc-gold)"
+          strokeWidth={stroke}
+          fill="none"
+          strokeLinecap="round"
+          initial={{ strokeDasharray: `0 ${circumference}` }}
+          whileInView={{ strokeDasharray: `${dash} ${circumference}` }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.6, ease: "easeOut", delay: 0.3 }}
+          style={{ filter: "drop-shadow(0 0 6px var(--gold))" }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <Sparkles className="w-4 h-4 text-[var(--gold)] mb-2" />
+        <div className="font-display text-4xl text-ink">
+          {current}
+          <span className="text-[var(--muted-foreground)]/70 text-2xl"> / {required}</span>
+        </div>
+        <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)]/80 font-display mt-1">
+          Appels envoyés
+        </div>
+        <div className="text-xs text-[var(--muted-foreground)] mt-1 italic">{pct}% de l'étape</div>
+      </div>
+    </div>
+  );
+}
+
 export function Tokens() {
+  const totalCalls = RETURNING_TREASURE.stages.reduce((s, st) => s + st.calls, 0);
+
   return (
     <section id="quest" className="relative py-32 px-6 overflow-hidden">
-      <div className="absolute inset-0 bg-[var(--abyss)]" />
-      <div className="absolute inset-0 opacity-30" style={{ background: "var(--gradient-ember)" }} />
+      <div className="absolute inset-0 bg-gradient-mystic" />
+      <div className="absolute inset-0 opacity-50" style={{ background: "var(--gradient-ember)" }} />
 
       <div className="relative max-w-7xl mx-auto">
         {/* Heading */}
@@ -73,16 +155,17 @@ export function Tokens() {
             ✦ Les Quatre Jetons Sacrés ✦
           </span>
           <h2 className="font-display text-4xl md:text-6xl font-semibold mt-6 mb-6">
-            <span className="gradient-gold-text">Accumulez. Incarnez. Libérez.</span>
+            <span className="gradient-gold-text">Accumulez. Dépensez. Libérez.</span>
           </h2>
           <p className="font-body text-lg text-[var(--muted-foreground)] max-w-3xl mx-auto italic leading-relaxed">
-            Chaque trésor du Bénin attend sa libération. Pour orchestrer son retour, le joueur doit
-            incarner successivement les quatre rôles et accumuler les jetons des quatre dimensions.
+            Chaque trésor du Bénin attend sa libération. Pour orchestrer son retour, dépensez vos jetons
+            en <span className="text-[var(--gold)] not-italic font-semibold">appels sacrés</span>.
+            Soixante appels libèrent une étape ; six étapes ramènent le trésor.
           </p>
         </motion.div>
 
         {/* The 4 tokens */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-28">
           {TOKENS.map((token, idx) => {
             const Icon = token.icon;
             return (
@@ -94,8 +177,7 @@ export function Tokens() {
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 className="group relative"
               >
-                <div className="relative h-full p-7 rounded-sm border border-[var(--gold)]/20 bg-[var(--card)]/70 backdrop-blur-sm hover:border-[var(--gold)]/60 transition-all duration-500 hover:-translate-y-1">
-                  {/* Sigil */}
+                <div className="relative h-full p-7 rounded-sm border border-[var(--gold)]/30 bg-[var(--card)]/90 backdrop-blur-sm hover:border-[var(--gold)]/70 transition-all duration-500 hover:-translate-y-1 shadow-mystic">
                   <div
                     className="absolute -top-4 -right-2 font-mystic text-6xl leading-none opacity-80"
                     style={{ color: token.color }}
@@ -108,28 +190,28 @@ export function Tokens() {
                       className="w-12 h-12 rounded-full border flex items-center justify-center mb-5"
                       style={{
                         borderColor: token.color,
-                        backgroundColor: "color-mix(in oklab, " + token.color + " 10%, transparent)",
+                        backgroundColor: "color-mix(in oklab, " + token.color + " 12%, transparent)",
                       }}
                     >
                       <Icon className="w-5 h-5" style={{ color: token.color }} />
                     </div>
 
-                    <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)]/70 font-display mb-2">
+                    <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)]/80 font-display mb-2">
                       Jeton de
                     </div>
-                    <h3 className="font-display text-2xl text-parchment mb-3">{token.name}</h3>
+                    <h3 className="font-display text-2xl text-ink mb-3">{token.name}</h3>
                     <p className="font-body text-sm text-[var(--muted-foreground)] leading-relaxed mb-5">
                       {token.description}
                     </p>
 
-                    <div className="pt-4 border-t border-[var(--gold)]/15 space-y-2">
+                    <div className="pt-4 border-t border-[var(--gold)]/20 space-y-2">
                       <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.25em] font-display">
-                        <span className="text-[var(--gold)]/60">Rôle</span>
+                        <span className="text-[var(--muted-foreground)]">Rôle</span>
                         <span className="text-[var(--gold)]">{token.role}</span>
                       </div>
                       <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.25em] font-display">
-                        <span className="text-[var(--gold)]/60">Source</span>
-                        <span className="text-[var(--parchment)]/80">{token.page}</span>
+                        <span className="text-[var(--muted-foreground)]">Source</span>
+                        <span className="text-ink/80">{token.page}</span>
                       </div>
                     </div>
                   </div>
@@ -139,7 +221,112 @@ export function Tokens() {
           })}
         </div>
 
-        {/* Featured Treasure */}
+        {/* TRÉSOR EN COURS DE LIBÉRATION */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.9 }}
+          className="relative mb-28"
+        >
+          <div className="text-center mb-10">
+            <span className="text-xs uppercase tracking-[0.4em] text-[var(--ember)] font-display">
+              ✦ Trésor en cours de libération ✦
+            </span>
+            <h3 className="font-display text-3xl md:text-5xl font-semibold mt-5">
+              <span className="gradient-gold-text">{ACTIVE_TREASURE.name}</span>
+            </h3>
+          </div>
+
+          <div className="relative overflow-hidden rounded-sm border border-[var(--gold)]/40 bg-[var(--card)]/80 backdrop-blur-sm shadow-mystic">
+            <div className="h-px bg-gradient-to-r from-transparent via-[var(--gold)]/60 to-transparent" />
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
+              {/* Image */}
+              <div className="lg:col-span-4 relative overflow-hidden border-b lg:border-b-0 lg:border-r border-[var(--gold)]/20">
+                <img
+                  src={ACTIVE_TREASURE.image}
+                  alt={ACTIVE_TREASURE.name}
+                  loading="lazy"
+                  width={896}
+                  height={1024}
+                  className="w-full h-full object-cover min-h-[320px]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--abyss)]/60 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2">
+                  <Lock className="w-3.5 h-3.5 text-[var(--ember)]" />
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-[var(--parchment)] font-display">
+                    {ACTIVE_TREASURE.status}
+                  </span>
+                </div>
+              </div>
+
+              {/* Story + cost */}
+              <div className="lg:col-span-4 p-8 md:p-10 border-b lg:border-b-0 lg:border-r border-[var(--gold)]/20">
+                <p className="text-xs uppercase tracking-[0.3em] text-[var(--gold)]/70 font-display mb-3">
+                  {ACTIVE_TREASURE.origin}
+                </p>
+                <p className="font-body text-base text-[var(--muted-foreground)] leading-relaxed italic mb-6">
+                  « {ACTIVE_TREASURE.story} »
+                </p>
+
+                <div className="pt-5 border-t border-[var(--gold)]/20">
+                  <h4 className="font-display text-sm uppercase tracking-[0.3em] text-ink mb-4">
+                    Coût d'un appel sacré
+                  </h4>
+                  <div className="space-y-3">
+                    {ACTIVE_TREASURE.costPerCall.map((c) => {
+                      const Icon = c.icon;
+                      return (
+                        <div key={c.token} className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div
+                              className="w-8 h-8 rounded-full border flex items-center justify-center"
+                              style={{
+                                borderColor: c.color,
+                                backgroundColor: "color-mix(in oklab, " + c.color + " 10%, transparent)",
+                              }}
+                            >
+                              <Icon className="w-3.5 h-3.5" style={{ color: c.color }} />
+                            </div>
+                            <span className="font-body text-sm text-ink">{c.token}</span>
+                          </div>
+                          <div className="font-display text-sm">
+                            <span style={{ color: c.color }}>−{c.amount}</span>
+                            <span className="text-[var(--muted-foreground)]/70 text-xs ml-1">jetons</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <p className="mt-5 text-[11px] italic text-[var(--muted-foreground)] leading-relaxed">
+                    Chaque joueur peut « appeler » le trésor en dépensant ses jetons.
+                    60 appels collectifs libèrent l'étape en cours.
+                  </p>
+                </div>
+              </div>
+
+              {/* Arc circle */}
+              <div className="lg:col-span-4 p-8 md:p-10 flex flex-col items-center justify-center">
+                <CallArc current={ACTIVE_TREASURE.callsCurrent} required={ACTIVE_TREASURE.callsRequiredPerStage} />
+                <a
+                  href="#"
+                  className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-sm bg-gradient-gold text-[var(--background)] font-display text-xs uppercase tracking-[0.3em] font-semibold shadow-gold hover:shadow-mystic transition-all duration-500 hover:scale-[1.02]"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  Envoyer un appel
+                </a>
+                <p className="mt-3 text-[10px] uppercase tracking-[0.3em] text-[var(--muted-foreground)] font-display">
+                  {ACTIVE_TREASURE.callsRequiredPerStage - ACTIVE_TREASURE.callsCurrent} appels restants
+                </p>
+              </div>
+            </div>
+
+            <div className="h-px bg-gradient-to-r from-transparent via-[var(--gold)]/60 to-transparent" />
+          </div>
+        </motion.div>
+
+        {/* TRÉSOR EN COURS DE RETOUR — FRISE 6 ÉTAPES */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -149,81 +336,131 @@ export function Tokens() {
         >
           <div className="text-center mb-10">
             <span className="text-xs uppercase tracking-[0.4em] text-[var(--gold)] font-display">
-              ✦ Trésor en Quête de Retour ✦
+              ✦ Trésor libéré · En chemin vers le Bénin ✦
             </span>
             <h3 className="font-display text-3xl md:text-5xl font-semibold mt-5">
-              <span className="gradient-gold-text">{FEATURED_TREASURE.name}</span>
+              <span className="gradient-gold-text">{RETURNING_TREASURE.name}</span>
             </h3>
+            <p className="mt-4 font-body text-[var(--muted-foreground)] italic max-w-2xl mx-auto">
+              « {RETURNING_TREASURE.story} »
+            </p>
           </div>
 
-          <div className="relative overflow-hidden rounded-sm border border-[var(--gold)]/30 bg-gradient-to-b from-[var(--card)]/80 to-[var(--abyss)]/80 backdrop-blur-sm shadow-mystic">
-            {/* Decorative top border */}
+          <div className="relative overflow-hidden rounded-sm border border-[var(--gold)]/40 bg-[var(--card)]/80 backdrop-blur-sm shadow-mystic">
             <div className="h-px bg-gradient-to-r from-transparent via-[var(--gold)]/60 to-transparent" />
 
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-0">
-              {/* Left : story */}
-              <div className="lg:col-span-2 p-8 md:p-10 border-b lg:border-b-0 lg:border-r border-[var(--gold)]/15">
-                <div className="flex items-center gap-3 mb-5">
-                  <Lock className="w-4 h-4 text-[var(--ember)]" />
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-[var(--ember)] font-display">
-                    {FEATURED_TREASURE.status}
-                  </span>
-                </div>
-                <p className="text-xs uppercase tracking-[0.3em] text-[var(--gold)]/60 font-display mb-3">
-                  {FEATURED_TREASURE.origin}
-                </p>
-                <p className="font-body text-base md:text-lg text-[var(--muted-foreground)] leading-relaxed italic">
-                  « {FEATURED_TREASURE.story} »
-                </p>
-
-                <div className="mt-8 font-mystic text-3xl text-[var(--gold)]/70">
-                  ~ Sa libération vous attend ~
-                </div>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
+              <div className="lg:col-span-3 relative overflow-hidden border-b lg:border-b-0 lg:border-r border-[var(--gold)]/20">
+                <img
+                  src={RETURNING_TREASURE.image}
+                  alt={RETURNING_TREASURE.name}
+                  loading="lazy"
+                  width={896}
+                  height={1024}
+                  className="w-full h-full object-cover min-h-[280px]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--abyss)]/40 via-transparent to-transparent" />
               </div>
 
-              {/* Right : token requirements */}
-              <div className="lg:col-span-3 p-8 md:p-10 space-y-6">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-display text-xl text-parchment">Jetons requis pour la libération</h4>
-                  <Sparkles className="w-4 h-4 text-[var(--gold)]" />
+              {/* Frise */}
+              <div className="lg:col-span-9 p-8 md:p-10">
+                <div className="flex items-center justify-between mb-8">
+                  <div>
+                    <h4 className="font-display text-xl text-ink">Frise des six bénédictions</h4>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-1">
+                      60 appels par étape · 360 appels pour le retour complet
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-display text-2xl text-[var(--gold)]">{totalCalls}<span className="text-[var(--muted-foreground)]/70 text-base"> / 360</span></div>
+                    <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)]/70 font-display">
+                      Appels totaux
+                    </div>
+                  </div>
                 </div>
 
-                {FEATURED_TREASURE.requirements.map((req) => {
-                  const Icon = req.icon;
-                  const pct = Math.min(100, Math.round((req.current / req.required) * 100));
-                  return (
-                    <div key={req.token} className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full border border-[var(--gold)]/40 flex items-center justify-center">
-                            <Icon className="w-3.5 h-3.5 text-[var(--gold)]" />
-                          </div>
-                          <span className="font-display text-sm text-parchment">{req.token}</span>
-                        </div>
-                        <div className="font-display text-sm">
-                          <span className="text-[var(--gold)]">{req.current}</span>
-                          <span className="text-[var(--muted-foreground)]/60"> / {req.required}</span>
-                        </div>
-                      </div>
-                      <div className="relative h-1.5 rounded-full bg-[var(--abyss)] overflow-hidden border border-[var(--gold)]/10">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${pct}%` }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
-                          className="absolute inset-y-0 left-0 bg-gradient-to-r from-[var(--gold-deep)] to-[var(--gold)]"
-                          style={{ boxShadow: "0 0 12px var(--gold)" }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
+                {/* Frise horizontale */}
+                <div className="relative">
+                  {/* Ligne de fond */}
+                  <div className="absolute top-6 left-6 right-6 h-px bg-[var(--gold)]/20" />
+                  {/* Ligne progression */}
+                  <motion.div
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: (totalCalls / 360) }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.8, ease: "easeOut", delay: 0.4 }}
+                    style={{ transformOrigin: "left" }}
+                    className="absolute top-6 left-6 right-6 h-px bg-gradient-to-r from-[var(--gold)] to-[var(--ember)]"
+                  />
 
-                <div className="pt-4 mt-2 border-t border-[var(--gold)]/15 flex items-center justify-between">
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)]/60 font-display">
-                    Progression globale
-                  </span>
-                  <span className="font-display text-[var(--gold)]">42%</span>
+                  <div className="grid grid-cols-6 gap-2 relative">
+                    {RETURNING_TREASURE.stages.map((stage, idx) => {
+                      const pct = Math.min(100, Math.round((stage.calls / 60) * 100));
+                      const isComplete = stage.calls >= 60;
+                      const isCurrent = idx === RETURNING_TREASURE.currentStage;
+                      const isLocked = !isComplete && !isCurrent;
+                      return (
+                        <motion.div
+                          key={stage.phase}
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.5, delay: idx * 0.12 }}
+                          className="flex flex-col items-center text-center"
+                        >
+                          {/* Pastille */}
+                          <div
+                            className={`w-12 h-12 rounded-full border-2 flex items-center justify-center backdrop-blur-sm transition-all relative z-10 ${
+                              isComplete
+                                ? "bg-gradient-gold border-[var(--gold)] shadow-gold"
+                                : isCurrent
+                                ? "bg-[var(--card)] border-[var(--ember)] animate-ember"
+                                : "bg-[var(--card)] border-[var(--gold)]/30"
+                            }`}
+                          >
+                            {isComplete ? (
+                              <CheckCircle2 className="w-5 h-5 text-[var(--background)]" />
+                            ) : isLocked ? (
+                              <Lock className="w-4 h-4 text-[var(--muted-foreground)]/60" />
+                            ) : (
+                              <span className="font-display text-sm text-[var(--ember)]">{stage.phase}</span>
+                            )}
+                          </div>
+
+                          {/* Mini progress bar */}
+                          <div className="mt-3 w-full h-1 rounded-full bg-[var(--gold)]/10 overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              whileInView={{ width: `${pct}%` }}
+                              viewport={{ once: true }}
+                              transition={{ duration: 1.2, delay: 0.4 + idx * 0.1, ease: "easeOut" }}
+                              className={`h-full ${
+                                isComplete
+                                  ? "bg-[var(--gold)]"
+                                  : isCurrent
+                                  ? "bg-[var(--ember)]"
+                                  : "bg-[var(--gold)]/40"
+                              }`}
+                            />
+                          </div>
+
+                          <div className="mt-2 text-[9px] uppercase tracking-[0.2em] font-display text-[var(--gold)]">
+                            Phase {stage.phase}
+                          </div>
+                          <div className="text-xs font-display text-ink mt-0.5">{stage.name}</div>
+                          <div className="text-[10px] text-[var(--muted-foreground)] italic mt-1 leading-tight">
+                            {stage.deity}
+                          </div>
+                          <div className="mt-1 text-[10px] font-display">
+                            <span className={isComplete ? "text-[var(--gold)]" : isCurrent ? "text-[var(--ember)]" : "text-[var(--muted-foreground)]/70"}>
+                              {stage.calls}
+                            </span>
+                            <span className="text-[var(--muted-foreground)]/60">/60</span>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
@@ -232,7 +469,8 @@ export function Tokens() {
           </div>
 
           <p className="text-center mt-10 font-body italic text-[var(--muted-foreground)] max-w-2xl mx-auto">
-            « Chaque jeton est une pierre posée sur le chemin du retour. Quatre dimensions, une seule destinée. »
+            « Six bénédictions, soixante appels chacune. Trois cent soixante voix unies pour ramener
+            la lumière au foyer ancestral. »
           </p>
         </motion.div>
       </div>

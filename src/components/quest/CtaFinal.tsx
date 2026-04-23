@@ -4,7 +4,7 @@ import { Sparkles, ArrowRight } from "lucide-react";
 export function CtaFinal() {
   return (
     <section className="relative py-32 px-6 overflow-hidden">
-      <div className="absolute inset-0 bg-[var(--abyss)]" />
+      <div className="absolute inset-0 bg-gradient-mystic" />
       <div className="absolute inset-0" style={{ background: "var(--gradient-ember)" }} />
 
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
@@ -19,10 +19,10 @@ export function CtaFinal() {
         transition={{ duration: 0.9 }}
         className="relative max-w-3xl mx-auto text-center"
       >
-        <div className="font-mystic text-4xl text-[var(--gold)]/80 mb-6">~ L'heure est venue ~</div>
+        <div className="font-mystic text-4xl text-[var(--gold)] mb-6">~ L'heure est venue ~</div>
 
         <h2 className="font-display text-4xl md:text-6xl font-semibold mb-8 leading-tight">
-          <span className="text-parchment">Le Bénin</span>
+          <span className="text-ink">Le Bénin</span>
           <span className="block gradient-gold-text mt-2">vous attend.</span>
         </h2>
 
@@ -32,14 +32,14 @@ export function CtaFinal() {
 
         <a
           href="#"
-          className="group inline-flex items-center gap-3 px-10 py-5 rounded-sm bg-gradient-gold text-[var(--abyss)] font-display text-sm uppercase tracking-[0.3em] font-bold shadow-gold hover:shadow-mystic transition-all duration-500 hover:scale-[1.03]"
+          className="group inline-flex items-center gap-3 px-10 py-5 rounded-sm bg-gradient-gold text-[var(--background)] font-display text-sm uppercase tracking-[0.3em] font-bold shadow-gold hover:shadow-mystic transition-all duration-500 hover:scale-[1.03]"
         >
           <Sparkles className="w-4 h-4" />
           Commencer la Quête
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
         </a>
 
-        <p className="mt-12 text-xs uppercase tracking-[0.4em] text-[var(--gold)]/50 font-display">
+        <p className="mt-12 text-xs uppercase tracking-[0.4em] text-[var(--gold)] font-display">
           ✦ Mur des Sagesses ✦
         </p>
       </motion.div>
