@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Hero } from "@/components/quest/Hero";
 import { Pillars } from "@/components/quest/Pillars";
-import { Journey } from "@/components/quest/Journey";
+import { Tokens } from "@/components/quest/Tokens";
 import { Guardians } from "@/components/quest/Guardians";
 import { CtaFinal } from "@/components/quest/CtaFinal";
 
@@ -29,7 +29,7 @@ function Index() {
     <main className="relative">
       <Hero />
       <Pillars />
-      <Journey />
+      <Tokens />
       <Guardians />
       <CtaFinal />
       <footer className="py-10 text-center text-xs uppercase tracking-[0.4em] text-[var(--gold)]/40 font-display border-t border-[var(--gold)]/10">
