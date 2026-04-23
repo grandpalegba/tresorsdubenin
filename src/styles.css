@@ -185,8 +185,10 @@
 
   .text-gold { color: var(--gold); }
   .text-ocher { color: var(--ocher); }
-  .text-parchment { color: var(--parchment); }
+  .text-parchment { color: var(--abyss); }
+  .text-ink { color: var(--abyss); }
   .bg-abyss { background-color: var(--abyss); }
+  .bg-parchment { background-color: var(--parchment); }
   .bg-ocher { background-color: var(--ocher); }
 
   .gradient-gold-text {
