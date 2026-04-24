@@ -72,6 +72,8 @@ const ACTIVE_TREASURE = {
   ],
   callsRequiredPerStage: 60,
   callsCurrent: 38,
+  // Étapes déjà validées (Phase I terminée → 1). Détermine l'œuf affiché.
+  completedStages: 1,
 };
 
 // Nouvel ordre des bénédictions : Legba, Gu, Wata, Heviosso, Sakpata, Minona
@@ -92,48 +94,57 @@ const RETURNING_TREASURE = {
   currentStage: 3,
 };
 
-function CallArc({ current, required, size = 220 }: { current: number; required: number; size?: number }) {
+function EggProgress({
+  current,
+  required,
+  completedStages,
+  size = 240,
+}: {
+  current: number;
+  required: number;
+  completedStages: number;
+  size?: number;
+}) {
   const pct = Math.min(100, Math.round((current / required) * 100));
-  const stroke = 12;
-  const radius = (size - stroke) / 2;
-  const circumference = 2 * Math.PI * radius;
-  const dash = (pct / 100) * circumference;
+  // Œuf de base = stade actuellement atteint ; œuf "à venir" = stade suivant, révélé du bas vers le haut.
+  const baseIdx = Math.min(EGGS.length - 1, completedStages);
+  const nextIdx = Math.min(EGGS.length - 1, completedStages + 1);
 
   return (
-    <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
-      <svg width={size} height={size} className="-rotate-90">
-        <defs>
-          <linearGradient id="arc-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="var(--gold)" />
-            <stop offset="100%" stopColor="var(--ember)" />
-          </linearGradient>
-        </defs>
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          stroke="var(--gold)"
-          strokeOpacity="0.15"
-          strokeWidth={stroke}
-          fill="none"
+    <div className="flex flex-col items-center">
+      <div className="relative" style={{ width: size, height: size }}>
+        {/* Halo doré */}
+        <div
+          className="absolute inset-0 rounded-full opacity-60"
+          style={{
+            background:
+              "radial-gradient(circle at 50% 55%, color-mix(in oklab, var(--gold) 35%, transparent) 0%, transparent 65%)",
+            filter: "blur(8px)",
+          }}
         />
-        <motion.circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          stroke="url(#arc-gold)"
-          strokeWidth={stroke}
-          fill="none"
-          strokeLinecap="round"
-          initial={{ strokeDasharray: `0 ${circumference}` }}
-          whileInView={{ strokeDasharray: `${dash} ${circumference}` }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.6, ease: "easeOut", delay: 0.3 }}
-          style={{ filter: "drop-shadow(0 0 6px var(--gold))" }}
+        {/* Œuf de base — stade actuel */}
+        <img
+          src={EGGS[baseIdx]}
+          alt={`Œuf stade ${baseIdx}`}
+          className="absolute inset-0 w-full h-full object-contain drop-shadow-xl"
         />
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <Sparkles className="w-4 h-4 text-[var(--gold)] mb-2" />
+        {/* Œuf suivant — révélé du bas selon le % d'appels envoyés */}
+        {nextIdx !== baseIdx && (
+          <motion.img
+            src={EGGS[nextIdx]}
+            alt={`Œuf stade ${nextIdx} (en formation)`}
+            className="absolute inset-0 w-full h-full object-contain drop-shadow-xl"
+            initial={{ clipPath: "inset(100% 0 0 0)" }}
+            whileInView={{ clipPath: `inset(${100 - pct}% 0 0 0)` }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.6, ease: "easeOut", delay: 0.3 }}
+          />
+        )}
+        {/* Étincelles */}
+        <Sparkles className="absolute -top-2 right-4 w-5 h-5 text-[var(--gold)] animate-shimmer" />
+      </div>
+
+      <div className="mt-5 text-center">
         <div className="font-display text-4xl text-ink">
           {current}
           <span className="text-[var(--muted-foreground)]/70 text-2xl"> / {required}</span>
@@ -141,7 +152,9 @@ function CallArc({ current, required, size = 220 }: { current: number; required:
         <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)]/80 font-display mt-1">
           Appels envoyés
         </div>
-        <div className="text-xs text-[var(--muted-foreground)] mt-1 italic">{pct}% de l'étape</div>
+        <div className="text-xs text-[var(--muted-foreground)] mt-1 italic">
+          {pct}% de l'étape · Œuf {baseIdx}/6
+        </div>
       </div>
     </div>
   );
@@ -317,7 +330,11 @@ export function Tokens() {
               </div>
 
               <div className="lg:col-span-4 p-8 md:p-10 flex flex-col items-center justify-center">
-                <CallArc current={ACTIVE_TREASURE.callsCurrent} required={ACTIVE_TREASURE.callsRequiredPerStage} />
+                <EggProgress
+                  current={ACTIVE_TREASURE.callsCurrent}
+                  required={ACTIVE_TREASURE.callsRequiredPerStage}
+                  completedStages={ACTIVE_TREASURE.completedStages}
+                />
                 <a
                   href="#"
                   className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-sm bg-gradient-gold text-white font-display text-xs uppercase tracking-[0.3em] font-semibold shadow-gold hover:shadow-mystic transition-all duration-500 hover:scale-[1.02]"
@@ -493,36 +510,6 @@ export function Tokens() {
                   </div>
                 </div>
 
-                {/* Légende œuf — 7 stades */}
-                <div className="mt-10 pt-6 border-t border-[var(--gold)]/20">
-                  <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)]/80 font-display text-center mb-4">
-                    ✦ L'œuf sacré se remplit étape après étape ✦
-                  </div>
-                  <div className="flex items-center justify-between gap-2">
-                    {EGGS.map((src, i) => (
-                      <div key={i} className="flex flex-col items-center flex-1">
-                        <img
-                          src={src}
-                          alt={`Œuf stade ${i}`}
-                          className={`w-10 h-10 md:w-12 md:h-12 object-contain transition-all ${
-                            i <= completedStages ? "opacity-100" : "opacity-30 grayscale"
-                          }`}
-                        />
-                        <span
-                          className={`mt-1 text-[9px] font-display uppercase tracking-[0.2em] ${
-                            i === completedStages
-                              ? "text-[var(--ember)]"
-                              : i < completedStages
-                              ? "text-[var(--gold)]"
-                              : "text-[var(--muted-foreground)]/50"
-                          }`}
-                        >
-                          {i}/6
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
 
