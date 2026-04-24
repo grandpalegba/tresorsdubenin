@@ -162,8 +162,8 @@
     border-color: var(--color-border);
   }
 
-  body {
-    background-color: #ffffff;
+  html, body {
+    background-color: #FFFFFF !important;
     color: var(--foreground);
     font-family: var(--font-body);
   }
