@@ -72,6 +72,8 @@ const ACTIVE_TREASURE = {
   ],
   callsRequiredPerStage: 60,
   callsCurrent: 38,
+  // Étapes déjà validées (Phase I terminée → 1). Détermine l'œuf affiché.
+  completedStages: 1,
 };
 
 // Nouvel ordre des bénédictions : Legba, Gu, Wata, Heviosso, Sakpata, Minona
