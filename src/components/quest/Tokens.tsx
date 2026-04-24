@@ -442,123 +442,77 @@ export function Tokens() {
                       60 appels par étape · 360 appels pour le retour complet
                     </p>
                   </div>
-                  <div>
-                    <div className="font-display text-2xl text-[var(--gold)]">
-                      {totalCalls}
-                      <span className="text-[var(--muted-foreground)]/70 text-base"> / 360</span>
-                    </div>
-                    <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)]/70 font-display">
-                      Appels totaux · {completedStages}/6 étapes
-                    </div>
-                  </div>
+                  <ReturnProgress current={totalCalls} total={360} size={180} />
                 </div>
 
-                {/* Frise horizontale */}
-                <div className="relative">
-                  <div className="absolute top-7 left-7 right-7 h-px bg-[var(--gold)]/20" />
-                  <motion.div
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: totalCalls / 360 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.8, ease: "easeOut", delay: 0.4 }}
-                    style={{ transformOrigin: "left" }}
-                    className="absolute top-7 left-7 right-7 h-px bg-gradient-to-r from-[var(--gold)] to-[var(--ember)]"
-                  />
-
-                  <div className="grid grid-cols-6 gap-2 relative">
-                    {RETURNING_TREASURE.stages.map((stage, idx) => {
-                      const pct = Math.min(100, Math.round((stage.calls / 60) * 100));
-                      const isComplete = stage.calls >= 60;
-                      const isCurrent = idx === RETURNING_TREASURE.currentStage;
-                      return (
-                        <motion.div
-                          key={stage.phase}
-                          initial={{ opacity: 0, y: 20 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.5, delay: idx * 0.12 }}
-                          className="flex flex-col items-center text-center"
+                {/* Frise — cercles uniquement, sans ligne de liaison */}
+                <div className="grid grid-cols-6 gap-3 relative">
+                  {RETURNING_TREASURE.stages.map((stage, idx) => {
+                    const isComplete = stage.calls >= 60;
+                    const isCurrent = idx === RETURNING_TREASURE.currentStage;
+                    return (
+                      <motion.div
+                        key={stage.phase}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: idx * 0.12 }}
+                        className="flex flex-col items-center text-center"
+                      >
+                        {/* Pastille — fond vert si validé, fond noir sinon */}
+                        <div
+                          className={`w-16 h-16 rounded-full border-2 flex items-center justify-center transition-all p-2.5 ${
+                            isComplete
+                              ? "bg-[var(--benin-green)] border-[var(--benin-yellow)] shadow-gold"
+                              : isCurrent
+                              ? "bg-black border-[var(--benin-red)] animate-ember"
+                              : "bg-black border-[var(--benin-yellow)]/50"
+                          }`}
                         >
-                          {/* Pastille — icône divinité, fond noir si validé, blanc sinon */}
-                          <div
-                            className={`w-14 h-14 rounded-full border-2 flex items-center justify-center transition-all relative z-10 p-2 ${
-                              isComplete
-                                ? "bg-[var(--abyss)] border-[var(--gold)] shadow-gold"
-                                : isCurrent
-                                ? "bg-white border-[var(--ember)] animate-ember"
-                                : "bg-white border-[var(--gold)]/40"
-                            }`}
-                          >
-                            <img
-                              src={stage.emblem}
-                              alt={stage.deity}
-                              className={`w-full h-full object-contain transition-all ${
-                                isComplete ? "" : "opacity-70"
-                              }`}
-                              style={
-                                isComplete
-                                  ? { filter: "brightness(0) saturate(100%) invert(72%) sepia(45%) saturate(550%) hue-rotate(2deg) brightness(95%) contrast(92%)" }
-                                  : undefined
-                              }
-                            />
-                          </div>
+                          <img
+                            src={stage.emblem}
+                            alt={stage.deity}
+                            className="w-full h-full object-contain"
+                            style={{
+                              filter:
+                                "brightness(0) saturate(100%) invert(82%) sepia(60%) saturate(600%) hue-rotate(2deg) brightness(102%) contrast(95%)",
+                            }}
+                          />
+                        </div>
 
-                          {/* Mini progress bar */}
-                          <div className="mt-3 w-full h-1 rounded-full bg-[var(--gold)]/10 overflow-hidden">
-                            <motion.div
-                              initial={{ width: 0 }}
-                              whileInView={{ width: `${pct}%` }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 1.2, delay: 0.4 + idx * 0.1, ease: "easeOut" }}
-                              className={`h-full ${
-                                isComplete
-                                  ? "bg-[var(--gold)]"
-                                  : isCurrent
-                                  ? "bg-[var(--ember)]"
-                                  : "bg-[var(--gold)]/40"
-                              }`}
-                            />
-                          </div>
-
-                          <div className="mt-2 text-[9px] uppercase tracking-[0.2em] font-display text-[var(--gold)]">
-                            Phase {stage.phase}
-                          </div>
-                          <div className="text-xs font-display text-ink mt-0.5">{stage.name}</div>
-                          <div className="text-[10px] text-[var(--muted-foreground)] italic mt-1 leading-tight">
-                            {stage.deity}
-                          </div>
-                          <div className="mt-1 text-[10px] font-display min-h-[14px]">
-                            {!isComplete && (
-                              <>
-                                <span
-                                  className={
-                                    isCurrent
-                                      ? "text-[var(--ember)]"
-                                      : "text-[var(--muted-foreground)]/70"
-                                  }
-                                >
-                                  {stage.calls}
-                                </span>
-                                <span className="text-[var(--muted-foreground)]/60">/60</span>
-                              </>
-                            )}
-                          </div>
-                        </motion.div>
-                      );
-                    })}
-                  </div>
+                        <div className="mt-3 text-[9px] uppercase tracking-[0.2em] font-display text-[var(--benin-green-deep)]">
+                          Phase {stage.phase}
+                        </div>
+                        <div className="text-xs font-display text-ink mt-0.5">{stage.name}</div>
+                        <div className="text-[10px] text-[var(--muted-foreground)] italic mt-1 leading-tight">
+                          {stage.deity}
+                        </div>
+                        <div className="mt-1 text-[10px] font-display min-h-[14px]">
+                          {!isComplete && (
+                            <>
+                              <span
+                                className={
+                                  isCurrent
+                                    ? "text-[var(--benin-red)]"
+                                    : "text-[var(--muted-foreground)]/70"
+                                }
+                              >
+                                {stage.calls}
+                              </span>
+                              <span className="text-[var(--muted-foreground)]/60">/60</span>
+                            </>
+                          )}
+                        </div>
+                      </motion.div>
+                    );
+                  })}
                 </div>
 
               </div>
             </div>
 
-            <div className="h-px bg-gradient-to-r from-transparent via-[var(--gold)]/60 to-transparent" />
+            <div className="h-px bg-gradient-to-r from-transparent via-[var(--benin-green)]/60 to-transparent" />
           </div>
-
-          <p className="text-center mt-10 font-body italic text-[var(--muted-foreground)] max-w-2xl mx-auto">
-            « Six bénédictions, soixante appels chacune. Trois cent soixante voix unies pour ramener
-            la lumière au foyer ancestral. »
-          </p>
         </motion.div>
       </div>
     </section>
