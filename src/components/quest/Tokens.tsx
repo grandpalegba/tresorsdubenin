@@ -482,19 +482,21 @@ export function Tokens() {
                           <div className="text-[10px] text-[var(--muted-foreground)] italic mt-1 leading-tight">
                             {stage.deity}
                           </div>
-                          <div className="mt-1 text-[10px] font-display">
-                            <span
-                              className={
-                                isComplete
-                                  ? "text-[var(--gold)]"
-                                  : isCurrent
-                                  ? "text-[var(--ember)]"
-                                  : "text-[var(--muted-foreground)]/70"
-                              }
-                            >
-                              {stage.calls}
-                            </span>
-                            <span className="text-[var(--muted-foreground)]/60">/60</span>
+                          <div className="mt-1 text-[10px] font-display min-h-[14px]">
+                            {!isComplete && (
+                              <>
+                                <span
+                                  className={
+                                    isCurrent
+                                      ? "text-[var(--ember)]"
+                                      : "text-[var(--muted-foreground)]/70"
+                                  }
+                                >
+                                  {stage.calls}
+                                </span>
+                                <span className="text-[var(--muted-foreground)]/60">/60</span>
+                              </>
+                            )}
                           </div>
                         </motion.div>
                       );
