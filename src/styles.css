@@ -102,8 +102,8 @@
   --ember: oklch(0.58 0.22 28);
 
   --gradient-mystic: linear-gradient(135deg, oklch(1 0 0) 0%, oklch(1 0 0) 50%, oklch(1 0 0) 100%);
-  --gradient-gold: linear-gradient(135deg, oklch(0.72 0.16 75) 0%, oklch(0.55 0.16 55) 50%, oklch(0.40 0.13 45) 100%);
-  --gradient-ember: radial-gradient(circle at 50% 50%, oklch(0.62 0.18 45 / 10%), transparent 70%);
+  --gradient-gold: linear-gradient(135deg, var(--benin-green) 0%, var(--benin-yellow) 50%, var(--benin-red) 100%);
+  --gradient-ember: radial-gradient(circle at 50% 50%, oklch(0.58 0.22 28 / 10%), transparent 70%);
   --gradient-parchment: linear-gradient(180deg, oklch(1 0 0) 0%, oklch(1 0 0) 100%);
 
   --shadow-mystic: 0 20px 60px -20px oklch(0.30 0.05 55 / 25%), 0 0 40px oklch(0.62 0.16 65 / 12%);
