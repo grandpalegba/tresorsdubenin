@@ -94,6 +94,51 @@ const RETURNING_TREASURE = {
   currentStage: 3,
 };
 
+function ReturnProgress({ current, total = 360, size = 200 }: { current: number; total?: number; size?: number }) {
+  const pct = Math.min(1, current / total);
+  const stroke = 14;
+  const r = (size - stroke) / 2;
+  const c = 2 * Math.PI * r;
+  return (
+    <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="-rotate-90">
+        <defs>
+          <linearGradient id="benin-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="var(--benin-green)" />
+            <stop offset="50%" stopColor="var(--benin-yellow)" />
+            <stop offset="100%" stopColor="var(--benin-red)" />
+          </linearGradient>
+        </defs>
+        <circle cx={size / 2} cy={size / 2} r={r} stroke="oklch(0.92 0.02 145)" strokeWidth={stroke} fill="none" />
+        <motion.circle
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          stroke="url(#benin-grad)"
+          strokeWidth={stroke}
+          fill="none"
+          strokeLinecap="round"
+          strokeDasharray={c}
+          initial={{ strokeDashoffset: c }}
+          whileInView={{ strokeDashoffset: c * (1 - pct) }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.8, ease: "easeOut" }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <div className="font-display text-3xl text-ink leading-none">
+          {current}
+          <span className="text-[var(--muted-foreground)]/70 text-lg"> / {total}</span>
+        </div>
+        <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--benin-green-deep)] font-display mt-1">
+          Appels totaux
+        </div>
+        <div className="text-[10px] text-[var(--muted-foreground)] mt-0.5">{Math.round(pct * 100)}%</div>
+      </div>
+    </div>
+  );
+}
+
 function EggProgress({
   current,
   required,
