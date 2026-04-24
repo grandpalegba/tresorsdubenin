@@ -84,14 +84,22 @@
   --input: oklch(0.92 0.02 70);
   --ring: oklch(0.58 0.16 60);
 
-  /* Tokens mystiques (adaptés pour fond clair) */
-  --gold: oklch(0.62 0.16 65);
-  --gold-deep: oklch(0.48 0.14 55);
-  --ocher: oklch(0.55 0.16 50);
-  --ocher-deep: oklch(0.38 0.13 45);
-  --parchment: oklch(0.97 0.025 85);
-  --abyss: oklch(0.18 0.025 55);
-  --ember: oklch(0.55 0.20 35);
+  /* Couleurs du Bénin : vert, jaune, rouge sur blanc lumineux */
+  --benin-green: oklch(0.55 0.18 145);
+  --benin-green-deep: oklch(0.42 0.16 145);
+  --benin-yellow: oklch(0.82 0.17 95);
+  --benin-yellow-deep: oklch(0.72 0.18 90);
+  --benin-red: oklch(0.58 0.22 28);
+  --benin-red-deep: oklch(0.46 0.20 28);
+
+  /* Aliases conservés pour compatibilité — remappés sur la palette Bénin */
+  --gold: oklch(0.78 0.17 92);
+  --gold-deep: oklch(0.62 0.18 90);
+  --ocher: oklch(0.55 0.18 145);
+  --ocher-deep: oklch(0.42 0.16 145);
+  --parchment: oklch(1 0 0);
+  --abyss: oklch(0.18 0.025 145);
+  --ember: oklch(0.58 0.22 28);
 
   --gradient-mystic: linear-gradient(135deg, oklch(1 0 0) 0%, oklch(1 0 0) 50%, oklch(1 0 0) 100%);
   --gradient-gold: linear-gradient(135deg, oklch(0.72 0.16 75) 0%, oklch(0.55 0.16 55) 50%, oklch(0.40 0.13 45) 100%);
