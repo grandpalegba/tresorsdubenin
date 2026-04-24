@@ -3,8 +3,7 @@ import { Sparkles, ArrowRight } from "lucide-react";
 
 export function CtaFinal() {
   return (
-    <section className="relative py-32 px-6 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-mystic" />
+    <section className="relative py-32 px-6 overflow-hidden bg-white">
       <div className="absolute inset-0" style={{ background: "var(--gradient-ember)" }} />
 
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">

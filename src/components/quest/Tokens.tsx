@@ -392,26 +392,18 @@ export function Tokens() {
               <div className="lg:col-span-9 p-8 md:p-10">
                 <div className="flex items-center justify-between mb-8 gap-6 flex-wrap">
                   <div>
-                    <h4 className="font-display text-xl text-ink">Frise des six bénédictions</h4>
+                    <h4 className="font-display text-xl text-ink">Étapes du retour</h4>
                     <p className="text-xs text-[var(--muted-foreground)] mt-1">
                       60 appels par étape · 360 appels pour le retour complet
                     </p>
                   </div>
-                  {/* Œuf de progression */}
-                  <div className="flex items-center gap-4">
-                    <img
-                      src={EGGS[completedStages]}
-                      alt={`Œuf — ${completedStages} étapes complétées`}
-                      className="w-16 h-16 object-contain drop-shadow-md"
-                    />
-                    <div>
-                      <div className="font-display text-2xl text-[var(--gold)]">
-                        {totalCalls}
-                        <span className="text-[var(--muted-foreground)]/70 text-base"> / 360</span>
-                      </div>
-                      <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)]/70 font-display">
-                        Appels totaux · Œuf {completedStages}/6
-                      </div>
+                  <div>
+                    <div className="font-display text-2xl text-[var(--gold)]">
+                      {totalCalls}
+                      <span className="text-[var(--muted-foreground)]/70 text-base"> / 360</span>
+                    </div>
+                    <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)]/70 font-display">
+                      Appels totaux · {completedStages}/6 étapes
                     </div>
                   </div>
                 </div>
@@ -490,19 +482,21 @@ export function Tokens() {
                           <div className="text-[10px] text-[var(--muted-foreground)] italic mt-1 leading-tight">
                             {stage.deity}
                           </div>
-                          <div className="mt-1 text-[10px] font-display">
-                            <span
-                              className={
-                                isComplete
-                                  ? "text-[var(--gold)]"
-                                  : isCurrent
-                                  ? "text-[var(--ember)]"
-                                  : "text-[var(--muted-foreground)]/70"
-                              }
-                            >
-                              {stage.calls}
-                            </span>
-                            <span className="text-[var(--muted-foreground)]/60">/60</span>
+                          <div className="mt-1 text-[10px] font-display min-h-[14px]">
+                            {!isComplete && (
+                              <>
+                                <span
+                                  className={
+                                    isCurrent
+                                      ? "text-[var(--ember)]"
+                                      : "text-[var(--muted-foreground)]/70"
+                                  }
+                                >
+                                  {stage.calls}
+                                </span>
+                                <span className="text-[var(--muted-foreground)]/60">/60</span>
+                              </>
+                            )}
                           </div>
                         </motion.div>
                       );

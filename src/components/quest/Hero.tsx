@@ -3,9 +3,8 @@ import { Sparkles, ArrowRight, Compass } from "lucide-react";
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6 py-32">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6 py-32 bg-white">
       {/* Mystic backdrop */}
-      <div className="absolute inset-0 bg-gradient-mystic" />
       <div className="absolute inset-0 opacity-40" style={{ background: "var(--gradient-ember)" }} />
 
       {/* Floating sigils */}

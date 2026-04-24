@@ -65,8 +65,7 @@ const DEITIES = [
 
 export function Guardians() {
   return (
-    <section className="relative py-32 px-6 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-mystic" />
+    <section className="relative py-32 px-6 overflow-hidden bg-white">
 
       <div className="relative max-w-7xl mx-auto">
         <motion.div
