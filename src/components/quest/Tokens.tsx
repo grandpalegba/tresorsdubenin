@@ -330,7 +330,11 @@ export function Tokens() {
               </div>
 
               <div className="lg:col-span-4 p-8 md:p-10 flex flex-col items-center justify-center">
-                <CallArc current={ACTIVE_TREASURE.callsCurrent} required={ACTIVE_TREASURE.callsRequiredPerStage} />
+                <EggProgress
+                  current={ACTIVE_TREASURE.callsCurrent}
+                  required={ACTIVE_TREASURE.callsRequiredPerStage}
+                  completedStages={ACTIVE_TREASURE.completedStages}
+                />
                 <a
                   href="#"
                   className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-sm bg-gradient-gold text-white font-display text-xs uppercase tracking-[0.3em] font-semibold shadow-gold hover:shadow-mystic transition-all duration-500 hover:scale-[1.02]"
