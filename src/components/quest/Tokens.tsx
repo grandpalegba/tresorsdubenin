@@ -510,36 +510,6 @@ export function Tokens() {
                   </div>
                 </div>
 
-                {/* Légende œuf — 7 stades */}
-                <div className="mt-10 pt-6 border-t border-[var(--gold)]/20">
-                  <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)]/80 font-display text-center mb-4">
-                    ✦ L'œuf sacré se remplit étape après étape ✦
-                  </div>
-                  <div className="flex items-center justify-between gap-2">
-                    {EGGS.map((src, i) => (
-                      <div key={i} className="flex flex-col items-center flex-1">
-                        <img
-                          src={src}
-                          alt={`Œuf stade ${i}`}
-                          className={`w-10 h-10 md:w-12 md:h-12 object-contain transition-all ${
-                            i <= completedStages ? "opacity-100" : "opacity-30 grayscale"
-                          }`}
-                        />
-                        <span
-                          className={`mt-1 text-[9px] font-display uppercase tracking-[0.2em] ${
-                            i === completedStages
-                              ? "text-[var(--ember)]"
-                              : i < completedStages
-                              ? "text-[var(--gold)]"
-                              : "text-[var(--muted-foreground)]/50"
-                          }`}
-                        >
-                          {i}/6
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
 
