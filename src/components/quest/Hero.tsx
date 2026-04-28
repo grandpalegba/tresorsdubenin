@@ -1,78 +1,114 @@
 import { motion } from "framer-motion";
-import { Sparkles, ArrowRight, Compass } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6 py-32 bg-white">
-      {/* Mystic backdrop */}
-      <div className="absolute inset-0 opacity-40" style={{ background: "var(--gradient-ember)" }} />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6 py-28 bg-white">
+      {/* Subtle grid backdrop */}
+      <div
+        className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #000 1px, transparent 1px), linear-gradient(to bottom, #000 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+          maskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
+        }}
+      />
 
-      {/* Floating sigils */}
-      <div className="absolute top-1/4 left-[8%] w-2 h-2 rounded-full bg-[var(--gold)] animate-shimmer" />
-      <div className="absolute top-1/3 right-[12%] w-1 h-1 rounded-full bg-[var(--gold)] animate-shimmer" style={{ animationDelay: "1s" }} />
-      <div className="absolute bottom-1/4 left-[15%] w-1.5 h-1.5 rounded-full bg-[var(--ember)] animate-shimmer" style={{ animationDelay: "2s" }} />
-      <div className="absolute bottom-1/3 right-[20%] w-1 h-1 rounded-full bg-[var(--gold)] animate-shimmer" style={{ animationDelay: "0.5s" }} />
-
-      {/* Concentric mystic circle */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-        <div className="w-[600px] h-[600px] rounded-full border border-[var(--gold)]/15 animate-ember" />
-        <div className="absolute inset-12 rounded-full border border-[var(--gold)]/10" />
-        <div className="absolute inset-24 rounded-full border border-[var(--ocher)]/10" />
-      </div>
+      {/* Floating Benin color glows */}
+      <div className="absolute top-[15%] left-[10%] w-72 h-72 rounded-full opacity-20 blur-3xl"
+           style={{ background: "var(--benin-green)" }} />
+      <div className="absolute bottom-[10%] right-[8%] w-80 h-80 rounded-full opacity-20 blur-3xl"
+           style={{ background: "var(--benin-yellow)" }} />
+      <div className="absolute top-[45%] right-[35%] w-56 h-56 rounded-full opacity-10 blur-3xl"
+           style={{ background: "var(--benin-red)" }} />
 
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
+        transition={{ duration: 1, ease: "easeOut" }}
         className="relative z-10 max-w-5xl text-center"
       >
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--gold)]/30 bg-[var(--gold)]/5 backdrop-blur-sm mb-8">
-          <Compass className="w-3.5 h-3.5 text-[var(--gold)]" />
-          <span className="text-xs uppercase tracking-[0.3em] text-[var(--gold)] font-display">
-            Quête Sacrée du Bénin
+        {/* Eyebrow badge */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-zinc-200 bg-white/80 backdrop-blur-sm mb-10">
+          <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--benin-green)" }} />
+          <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--benin-yellow)" }} />
+          <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--benin-red)" }} />
+          <span className="text-[11px] uppercase tracking-[0.25em] text-zinc-700 font-medium">
+            L'Odyssée Black To Benin
           </span>
         </div>
 
-        <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold leading-[1.05] mb-8">
-          <span className="block text-parchment">Libérez les Trésors</span>
-          <span className="block gradient-gold-text mt-2">de la Terre Mère</span>
+        <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[1.02] text-zinc-950">
+          La Renaissance commence
+          <br />
+          par un{" "}
+          <span className="relative inline-block">
+            <span className="relative z-10">Retour.</span>
+            <span
+              className="absolute bottom-1 md:bottom-2 left-0 right-0 h-3 md:h-4 -z-0 opacity-60"
+              style={{
+                background:
+                  "linear-gradient(90deg, var(--benin-green), var(--benin-yellow), var(--benin-red))",
+              }}
+            />
+          </span>
         </h1>
 
-        <p className="font-body text-xl md:text-2xl text-[var(--muted-foreground)] max-w-3xl mx-auto leading-relaxed mb-4 italic">
-          Retrouvez les trésors perdus. Orchestrez leur retour sacré.
-        </p>
-        <p className="font-body text-base md:text-lg text-[var(--muted-foreground)]/80 max-w-2xl mx-auto leading-relaxed mb-12">
-          Une quête mythologique où le cœur battant du Bénin guide chaque pas.
-          Chaque joueur, chaque divinité, chaque étape — une bénédiction vers la terre des ancêtres.
+        <p className="mt-8 text-lg md:text-xl text-zinc-600 max-w-2xl mx-auto leading-relaxed font-light">
+          <span className="font-medium text-zinc-900">360 voix unies</span>, quatre dimensions sacrées,
+          six guides ancestraux. Orchestrez le retour spirituel et symbolique des trésors royaux exilés.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
-            href="#quest"
-            className="group inline-flex items-center gap-3 px-8 py-4 rounded-sm bg-gradient-gold text-[var(--abyss)] font-display text-sm uppercase tracking-[0.25em] font-semibold shadow-gold hover:shadow-mystic transition-all duration-500 hover:scale-[1.02]"
+            href="#altar"
+            className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-zinc-950 text-white text-sm font-medium tracking-wide overflow-hidden transition-all duration-500 hover:scale-[1.02]"
+            style={{
+              boxShadow: "0 10px 40px -10px rgba(0,0,0,0.3)",
+            }}
           >
-            <Sparkles className="w-4 h-4" />
-            Commencer la Quête
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <span
+              className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              style={{
+                background:
+                  "linear-gradient(90deg, var(--benin-green), var(--benin-red))",
+                padding: "2px",
+                WebkitMask:
+                  "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                WebkitMaskComposite: "xor",
+                maskComposite: "exclude",
+              }}
+            />
+            <Sparkles className="w-4 h-4 relative z-10" />
+            <span className="relative z-10">Lancer un Appel</span>
+            <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
           </a>
           <a
-            href="#destins"
-            className="inline-flex items-center gap-2 px-6 py-4 text-[var(--gold)] font-display text-sm uppercase tracking-[0.25em] hover:text-[var(--parchment)] transition-colors border-b border-transparent hover:border-[var(--gold)]/40"
+            href="#dimensions"
+            className="inline-flex items-center gap-2 px-6 py-4 text-zinc-700 text-sm font-medium hover:text-zinc-950 transition-colors"
           >
-            Découvrir les Destins
+            Découvrir les 4 Dimensions
+            <ArrowRight className="w-4 h-4" />
           </a>
         </div>
 
-        <div className="mt-20 font-mystic text-3xl md:text-4xl text-[var(--gold)]/70">
-          ~ Bénin, terre des ancêtres ~
+        {/* Stat row */}
+        <div className="mt-20 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
+          {[
+            { v: "360", l: "Voix par trésor" },
+            { v: "6", l: "Guides ancestraux" },
+            { v: "4", l: "Dimensions sacrées" },
+          ].map((s) => (
+            <div key={s.l} className="text-center">
+              <div className="font-display text-3xl md:text-4xl font-semibold text-zinc-950 tabular-nums">
+                {s.v}
+              </div>
+              <div className="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mt-1">{s.l}</div>
+            </div>
+          ))}
         </div>
       </motion.div>
-
-      {/* Scroll cue */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[var(--gold)]/60">
-        <span className="text-[10px] uppercase tracking-[0.4em] font-display">Descendez</span>
-        <div className="w-px h-12 bg-gradient-to-b from-[var(--gold)]/60 to-transparent" />
-      </div>
     </section>
   );
 }

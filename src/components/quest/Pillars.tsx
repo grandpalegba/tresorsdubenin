@@ -1,168 +1,147 @@
 import { motion } from "framer-motion";
-import { Coins, Eye, BookOpen, Scale } from "lucide-react";
-import investisseur from "@/assets/role-investisseur.png";
-import sage from "@/assets/role-sage.png";
-import savant from "@/assets/role-savant.png";
-import juge from "@/assets/role-juge.png";
+import { Eye, BookOpen, Scale, MessageCircle, ArrowUpRight } from "lucide-react";
 
-const ROLES = [
+const DIMENSIONS = [
   {
-    name: "Le Savant",
-    subtitle: "Détenteur du Savoir",
-    page: "Page des Savoirs",
-    token: "Connaissance",
-    tokenIcon: BookOpen,
-    tokenColor: "var(--gold)",
-    sigil: "✦",
-    icon: BookOpen,
-    image: savant,
-    mission:
-      "Le joueur incarne un savant et répond à des questions sur le Bénin — son histoire, ses langues, ses traditions. Chaque bonne réponse forge un jeton de Connaissance.",
-  },
-  {
-    name: "La Sage",
-    subtitle: "Gardienne de la Vision",
-    page: "Page des Sagesses",
-    token: "Conscience",
-    tokenIcon: Eye,
-    tokenColor: "var(--ocher)",
-    sigil: "☾",
+    code: "01",
+    name: "Conscience",
+    page: "Page Sagesses",
     icon: Eye,
-    image: sage,
-    mission:
-      "Le joueur donne sa guidance sur des situations de vie soumises par la communauté. Sa parole apaisée et juste lui rapporte des jetons de Conscience.",
+    accent: "var(--benin-green)",
+    accentName: "Green",
+    description: "Éveil spirituel et philosophique. Donnez votre guidance sur des situations de vie.",
+    balance: "0",
   },
   {
-    name: "L'Investisseur",
-    subtitle: "Le Bâtisseur de Ponts",
-    page: "Page des Bâtisseurs",
-    token: "Engagement",
-    tokenIcon: Coins,
-    tokenColor: "var(--ember)",
-    sigil: "⚒",
-    icon: Coins,
-    image: investisseur,
-    mission:
-      "Le joueur gère un portefeuille de cauris et les attribue aux bâtisseurs les plus méritants. La cote de chaque bâtisseur évolue selon le succès de ses vidéos et services pour le Bénin. Gain ou perte spéculative — chaque action génère des jetons d'Engagement.",
+    code: "02",
+    name: "Connaissance",
+    page: "Page Savoirs",
+    icon: BookOpen,
+    accent: "var(--benin-yellow-deep)",
+    accentName: "Yellow",
+    description: "Maîtrise de l'histoire, des langues et des faits culturels du Bénin.",
+    balance: "0",
   },
   {
-    name: "Le Juge",
-    subtitle: "Garant de l'Équité",
-    page: "Page des Ambassadeurs",
-    token: "Souveraineté",
-    tokenIcon: Scale,
-    tokenColor: "var(--gold-deep)",
-    sigil: "⚖",
+    code: "03",
+    name: "Concordance",
+    page: "Page Talents",
     icon: Scale,
-    image: juge,
-    mission:
-      "Le joueur évalue deux talents qui s'opposent en vidéo et tranche en faveur de celui qui incarne le mieux la dignité béninoise. Chaque verdict éclairé décerne un jeton de Souveraineté.",
+    accent: "var(--benin-red)",
+    accentName: "Red",
+    description: "Arbitrage de duels artistiques. Gagnez en alignant votre vote sur l'instinct collectif.",
+    balance: "0",
+  },
+  {
+    code: "04",
+    name: "Confiance",
+    page: "Page Histoires",
+    icon: MessageCircle,
+    accent: "oklch(0.45 0 0)",
+    accentName: "Zinc",
+    description: "Validation et partage des récits communautaires qui tissent la mémoire.",
+    balance: "0",
   },
 ];
 
 export function Pillars() {
   return (
-    <section id="destins" className="relative py-32 px-6 overflow-hidden bg-white">
+    <section id="dimensions" className="relative py-32 px-6 bg-white border-t border-zinc-100">
       <div className="relative max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          transition={{ duration: 0.7 }}
+          className="max-w-3xl mb-20"
         >
-          <span className="text-xs uppercase tracking-[0.4em] text-[var(--gold)] font-display">
-            ✦ Les Quatre Piliers ✦
-          </span>
-          <h2 className="font-display text-4xl md:text-6xl font-semibold mt-6 mb-6">
-            <span className="gradient-gold-text">Choisissez votre Destin</span>
+          <div className="text-[11px] uppercase tracking-[0.3em] text-zinc-500 font-medium mb-5">
+            La Loi des 4C — Génération d'Énergie
+          </div>
+          <h2 className="font-display text-4xl md:text-6xl font-semibold tracking-tight text-zinc-950 leading-[1.05]">
+            Quatre dimensions.
+            <br />
+            <span className="text-zinc-400">Quatre sanctuaires.</span>
           </h2>
-          <p className="font-body text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto italic">
-            Quatre rôles. Quatre missions. Quatre jetons sacrés à accumuler pour libérer
-            les trésors du Bénin, étape par étape.
+          <p className="mt-6 text-lg text-zinc-600 max-w-2xl font-light leading-relaxed">
+            Pour lancer un Appel au Trésor, collectez des jetons dans chaque sanctuaire.
+            Chaque dimension forge une part essentielle de l'énergie du Retour.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {ROLES.map((role, idx) => {
-            const Icon = role.icon;
-            const TokenIcon = role.tokenIcon;
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-zinc-100 border border-zinc-100 rounded-2xl overflow-hidden">
+          {DIMENSIONS.map((d, idx) => {
+            const Icon = d.icon;
             return (
               <motion.div
-                key={role.name}
-                initial={{ opacity: 0, y: 40 }}
+                key={d.name}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.7, delay: idx * 0.12 }}
-                className="group relative"
+                transition={{ duration: 0.5, delay: idx * 0.08 }}
+                className="group relative bg-white p-8 hover:bg-zinc-50/50 transition-colors duration-500"
               >
-                <div className="relative overflow-hidden rounded-sm border border-[var(--gold)]/20 bg-white shadow-mystic transition-all duration-500 hover:border-[var(--gold)]/60 hover:-translate-y-1 h-full flex flex-col">
-                  {/* Portrait */}
-                  <div className="relative aspect-[3/4] overflow-hidden">
-                    <img
-                      src={role.image}
-                      alt={role.name}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--abyss)] via-[var(--abyss)]/40 to-transparent" />
-                    <div className="absolute top-4 right-4 w-10 h-10 rounded-full border border-[var(--gold)]/50 flex items-center justify-center bg-[var(--abyss)]/60 backdrop-blur-sm">
-                      <Icon className="w-4 h-4 text-[var(--gold)]" />
-                    </div>
-                    <div className="absolute top-4 left-4 font-mystic text-3xl text-[var(--gold)]">
-                      {role.sigil}
-                    </div>
+                {/* Accent bar */}
+                <div
+                  className="absolute top-0 left-0 right-0 h-[2px] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700"
+                  style={{ background: d.accent }}
+                />
 
-                    {/* Badge jeton — ancré au portrait */}
-                    <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 px-3 py-2 rounded-sm bg-[var(--abyss)]/75 backdrop-blur-sm border border-[var(--gold)]/40">
-                      <div
-                        className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
-                        style={{
-                          backgroundColor: "color-mix(in oklab, " + role.tokenColor + " 25%, transparent)",
-                          border: `1px solid ${role.tokenColor}`,
-                        }}
-                      >
-                        <TokenIcon className="w-3.5 h-3.5" style={{ color: role.tokenColor }} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-[9px] uppercase tracking-[0.25em] text-[var(--gold)]/80 font-display leading-none">
-                          Forge le jeton
-                        </div>
-                        <div className="text-xs font-display text-[var(--parchment)] leading-tight mt-0.5 truncate">
-                          {role.token}
-                        </div>
-                      </div>
-                    </div>
+                <div className="flex items-start justify-between mb-8">
+                  <div
+                    className="w-12 h-12 rounded-xl border border-zinc-200 flex items-center justify-center transition-all duration-500 group-hover:border-transparent"
+                    style={{
+                      ["--hover-bg" as string]: d.accent,
+                    }}
+                  >
+                    <Icon className="w-5 h-5 text-zinc-700 transition-colors duration-500 group-hover:text-zinc-950"
+                          style={{ color: undefined }} />
                   </div>
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-zinc-400 font-mono">
+                    {d.code}
+                  </span>
+                </div>
 
-                  {/* Content */}
-                  <div className="p-6 space-y-3 flex-1 flex flex-col">
-                    <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)]/80 font-display">
-                      {role.subtitle}
+                <div className="flex items-center gap-2 mb-2">
+                  <span
+                    className="w-1.5 h-1.5 rounded-full"
+                    style={{ background: d.accent }}
+                  />
+                  <span className="text-[10px] uppercase tracking-[0.25em] text-zinc-500 font-medium">
+                    Jeton {d.accentName}
+                  </span>
+                </div>
+                <h3 className="font-display text-2xl font-semibold text-zinc-950 mb-3 tracking-tight">
+                  {d.name}
+                </h3>
+                <p className="text-sm text-zinc-600 leading-relaxed mb-8 font-light min-h-[60px]">
+                  {d.description}
+                </p>
+
+                {/* Token balance */}
+                <div className="pt-6 border-t border-zinc-100">
+                  <div className="flex items-end justify-between">
+                    <div>
+                      <div className="text-[10px] uppercase tracking-[0.25em] text-zinc-400 mb-1">
+                        Token Balance
+                      </div>
+                      <div className="font-display text-3xl font-semibold text-zinc-950 tabular-nums">
+                        {d.balance}
+                      </div>
                     </div>
-                    <h3 className="font-display text-2xl text-ink">{role.name}</h3>
-                    <p className="font-body text-sm text-[var(--muted-foreground)] leading-relaxed flex-1">
-                      {role.mission}
-                    </p>
-                    <div className="pt-3 border-t border-[var(--gold)]/10 flex items-center justify-between text-[10px] uppercase tracking-[0.25em] text-[var(--gold)]/70 font-display">
-                      <span>Source</span>
-                      <span className="text-[var(--gold)] truncate ml-2">{role.page}</span>
-                    </div>
+                    <a
+                      href="#"
+                      className="inline-flex items-center gap-1 text-[11px] uppercase tracking-wider text-zinc-500 hover:text-zinc-950 transition-colors"
+                    >
+                      {d.page}
+                      <ArrowUpRight className="w-3 h-3" />
+                    </a>
                   </div>
                 </div>
               </motion.div>
             );
           })}
         </div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-center mt-16 font-body italic text-[var(--muted-foreground)] max-w-2xl mx-auto"
-        >
-          « Jouez. Accumulez. Méritez. Chaque jeton gagné est une pierre posée sur le chemin du retour. »
-        </motion.p>
       </div>
     </section>
   );
