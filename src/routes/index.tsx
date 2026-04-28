@@ -8,16 +8,16 @@ import { CtaFinal } from "@/components/quest/CtaFinal";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Libérez les Trésors de la Terre Mère — Quête Sacrée du Bénin" },
+      { title: "Black To Benin — La Renaissance commence par un Retour" },
       {
         name: "description",
         content:
-          "Une quête mythologique afro-futuriste : retrouvez les trésors perdus du Bénin, choisissez votre destin parmi les 4 Piliers et obtenez la bénédiction des 6 Gardiens.",
+          "L'Odyssée Black To Benin : 360 voix unies, 4 dimensions sacrées, 6 guides ancestraux pour orchestrer le Retour des trésors royaux exilés.",
       },
-      { property: "og:title", content: "Libérez les Trésors de la Terre Mère" },
+      { property: "og:title", content: "Black To Benin — La Renaissance commence par un Retour" },
       {
         property: "og:description",
-        content: "Une quête mythologique pour orchestrer le retour sacré des trésors béninois.",
+        content: "Une odyssée de gamification spirituelle pour le Retour des trésors du Bénin.",
       },
     ],
   }),
@@ -26,14 +26,22 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="relative">
+    <main className="relative bg-white">
       <Hero />
       <Pillars />
       <Tokens />
       <Guardians />
       <CtaFinal />
-      <footer className="py-10 text-center text-xs uppercase tracking-[0.4em] text-[var(--gold)]/40 font-display border-t border-[var(--gold)]/10">
-        ✦ Quête du Trésor — Terre Mère ✦
+      <footer className="border-t border-zinc-100 py-10 px-6 bg-white">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--benin-green)" }} />
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--benin-yellow)" }} />
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--benin-red)" }} />
+            <span className="ml-2 uppercase tracking-[0.25em] font-medium">Black To Benin</span>
+          </div>
+          <div className="uppercase tracking-[0.25em]">© L'Odyssée du Retour</div>
+        </div>
       </footer>
     </main>
   );
