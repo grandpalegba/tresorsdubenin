@@ -51,9 +51,7 @@ function CircularRing({ current, total, size = 360 }: { current: number; total: 
 export function Tokens() {
   return (
     <section id="altar" className="relative py-32 px-6 bg-white border-t border-zinc-100 overflow-hidden">
-      {/* Soft glow */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full opacity-[0.06] blur-3xl pointer-events-none"
-           style={{ background: "conic-gradient(from 0deg, var(--benin-green), var(--benin-yellow), var(--benin-red), var(--benin-green))" }} />
+      {/* clean white background */}
 
       <div className="relative max-w-6xl mx-auto">
         <motion.div
@@ -109,7 +107,7 @@ export function Tokens() {
           </div>
 
           {/* CENTER — The Altar Ring */}
-          <div className="relative order-1 lg:order-2 mx-auto">
+          <div className="relative order-1 lg:order-2 mx-auto flex flex-col items-center">
             <div className="relative w-[360px] h-[360px] flex items-center justify-center">
               <CircularRing current={CURRENT} total={TOTAL} size={360} />
 
@@ -123,14 +121,14 @@ export function Tokens() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-black/30 via-transparent to-white/20" />
               </div>
+            </div>
 
-              {/* Counter overlay */}
-              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white border border-zinc-200 rounded-full px-5 py-2 shadow-xl">
-                <div className="flex items-baseline gap-1.5">
-                  <span className="font-display text-2xl font-semibold text-zinc-950 tabular-nums">{CURRENT}</span>
-                  <span className="text-zinc-400 text-sm tabular-nums">/ {TOTAL}</span>
-                  <span className="text-[10px] uppercase tracking-wider text-zinc-500 ml-1">appels</span>
-                </div>
+            {/* Counter below ring */}
+            <div className="mt-6 bg-white border border-zinc-200 rounded-full px-6 py-2.5 shadow-sm">
+              <div className="flex items-baseline gap-1.5">
+                <span className="font-display text-2xl font-semibold text-zinc-950 tabular-nums">{CURRENT}</span>
+                <span className="text-zinc-400 text-sm tabular-nums">/ {TOTAL}</span>
+                <span className="text-[10px] uppercase tracking-wider text-zinc-500 ml-1">appels</span>
               </div>
             </div>
           </div>

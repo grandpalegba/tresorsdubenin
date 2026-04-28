@@ -15,13 +15,6 @@ export function Hero() {
         }}
       />
 
-      {/* Floating Benin color glows */}
-      <div className="absolute top-[15%] left-[10%] w-72 h-72 rounded-full opacity-20 blur-3xl"
-           style={{ background: "var(--benin-green)" }} />
-      <div className="absolute bottom-[10%] right-[8%] w-80 h-80 rounded-full opacity-20 blur-3xl"
-           style={{ background: "var(--benin-yellow)" }} />
-      <div className="absolute top-[45%] right-[35%] w-56 h-56 rounded-full opacity-10 blur-3xl"
-           style={{ background: "var(--benin-red)" }} />
 
       <motion.div
         initial={{ opacity: 0, y: 24 }}
@@ -29,31 +22,24 @@ export function Hero() {
         transition={{ duration: 1, ease: "easeOut" }}
         className="relative z-10 max-w-5xl text-center"
       >
-        {/* Eyebrow badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-zinc-200 bg-white/80 backdrop-blur-sm mb-10">
-          <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--benin-green)" }} />
-          <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--benin-yellow)" }} />
-          <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--benin-red)" }} />
+        {/* Eyebrow */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-zinc-200 bg-white mb-10">
           <span className="text-[11px] uppercase tracking-[0.25em] text-zinc-700 font-medium">
-            L'Odyssée Black To Benin
+            L'Odyssée
           </span>
         </div>
 
-        <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[1.02] text-zinc-950">
-          La Renaissance commence
-          <br />
-          par un{" "}
-          <span className="relative inline-block">
-            <span className="relative z-10">Retour.</span>
-            <span
-              className="absolute bottom-1 md:bottom-2 left-0 right-0 h-3 md:h-4 -z-0 opacity-60"
-              style={{
-                background:
-                  "linear-gradient(90deg, var(--benin-green), var(--benin-yellow), var(--benin-red))",
-              }}
-            />
+        <h1 className="font-display font-semibold tracking-tight leading-[0.95] text-zinc-950">
+          <span className="block text-[14vw] md:text-[10vw] lg:text-[9rem] uppercase">
+            Black To Benin
           </span>
         </h1>
+
+        <h2 className="mt-10 font-display text-3xl md:text-5xl lg:text-6xl font-medium tracking-tight leading-[1.05] text-zinc-800">
+          La Renaissance commence
+          <br />
+          par la Porte du Retour.
+        </h2>
 
         <p className="mt-8 text-lg md:text-xl text-zinc-600 max-w-2xl mx-auto leading-relaxed font-light">
           <span className="font-medium text-zinc-900">360 voix unies</span>, quatre dimensions sacrées,
