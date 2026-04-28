@@ -1,11 +1,17 @@
 import { motion } from "framer-motion";
 import { Eye, BookOpen, Scale, MessageCircle, ArrowUpRight } from "lucide-react";
+import roleSage from "@/assets/role-sage.png";
+import roleSavant from "@/assets/role-savant.png";
+import roleJuge from "@/assets/role-juge.png";
+import roleInvestisseur from "@/assets/role-investisseur.png";
 
 const DIMENSIONS = [
   {
     code: "01",
     name: "Conscience",
     page: "Page Sagesses",
+    role: "Le Sage",
+    portrait: roleSage,
     icon: Eye,
     accent: "var(--benin-green)",
     accentName: "Green",
@@ -16,6 +22,8 @@ const DIMENSIONS = [
     code: "02",
     name: "Connaissance",
     page: "Page Savoirs",
+    role: "Le Savant",
+    portrait: roleSavant,
     icon: BookOpen,
     accent: "var(--benin-yellow-deep)",
     accentName: "Yellow",
@@ -26,6 +34,8 @@ const DIMENSIONS = [
     code: "03",
     name: "Concordance",
     page: "Page Talents",
+    role: "Le Juge",
+    portrait: roleJuge,
     icon: Scale,
     accent: "var(--benin-red)",
     accentName: "Red",
@@ -36,6 +46,8 @@ const DIMENSIONS = [
     code: "04",
     name: "Confiance",
     page: "Page Histoires",
+    role: "L'Investisseur",
+    portrait: roleInvestisseur,
     icon: MessageCircle,
     accent: "oklch(0.45 0 0)",
     accentName: "Zinc",
@@ -61,7 +73,7 @@ export function Pillars() {
           <h2 className="font-display text-4xl md:text-6xl font-semibold tracking-tight text-zinc-950 leading-[1.05]">
             Quatre dimensions.
             <br />
-            <span className="text-zinc-400">Quatre sanctuaires.</span>
+            <span className="text-zinc-400">Quatre incarnations.</span>
           </h2>
           <p className="mt-6 text-lg text-zinc-600 max-w-2xl font-light leading-relaxed">
             Pour lancer un Appel au Trésor, collectez des jetons dans chaque sanctuaire.
@@ -79,7 +91,7 @@ export function Pillars() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
-                className="group relative bg-white p-8 hover:bg-zinc-50/50 transition-colors duration-500"
+                className="group relative bg-white p-8 hover:bg-zinc-50/50 transition-colors duration-500 flex flex-col"
               >
                 {/* Accent bar */}
                 <div
@@ -87,19 +99,34 @@ export function Pillars() {
                   style={{ background: d.accent }}
                 />
 
-                <div className="flex items-start justify-between mb-8">
+                <div className="flex items-start justify-between mb-6">
                   <div
-                    className="w-12 h-12 rounded-xl border border-zinc-200 flex items-center justify-center transition-all duration-500 group-hover:border-transparent"
-                    style={{
-                      ["--hover-bg" as string]: d.accent,
-                    }}
+                    className="w-12 h-12 rounded-xl border border-zinc-200 flex items-center justify-center"
                   >
-                    <Icon className="w-5 h-5 text-zinc-700 transition-colors duration-500 group-hover:text-zinc-950"
-                          style={{ color: undefined }} />
+                    <Icon className="w-5 h-5 text-zinc-700" />
                   </div>
                   <span className="text-[10px] uppercase tracking-[0.3em] text-zinc-400 font-mono">
                     {d.code}
                   </span>
+                </div>
+
+                {/* Portrait of the role */}
+                <div
+                  className="relative aspect-square rounded-2xl overflow-hidden mb-6 border-2"
+                  style={{ borderColor: `color-mix(in oklab, ${d.accent} 35%, white)` }}
+                >
+                  <img
+                    src={d.portrait}
+                    alt={d.role}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div
+                    className="absolute inset-0 mix-blend-multiply opacity-0 group-hover:opacity-25 transition-opacity duration-500"
+                    style={{ background: d.accent }}
+                  />
+                  <div className="absolute bottom-2 left-2 px-2 py-1 rounded-md bg-white/90 backdrop-blur text-[10px] uppercase tracking-wider font-medium text-zinc-800">
+                    {d.role}
+                  </div>
                 </div>
 
                 <div className="flex items-center gap-2 mb-2">
@@ -114,7 +141,7 @@ export function Pillars() {
                 <h3 className="font-display text-2xl font-semibold text-zinc-950 mb-3 tracking-tight">
                   {d.name}
                 </h3>
-                <p className="text-sm text-zinc-600 leading-relaxed mb-8 font-light min-h-[60px]">
+                <p className="text-sm text-zinc-600 leading-relaxed mb-8 font-light flex-1">
                   {d.description}
                 </p>
 

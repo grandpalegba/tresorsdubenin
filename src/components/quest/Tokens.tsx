@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Sparkles, Eye, BookOpen, Scale, MessageCircle } from "lucide-react";
-import treasureMask from "@/assets/treasure-mask.jpg";
+import porteDuRetour from "@/assets/porte-du-retour.png";
 
 const COSTS = [
   { name: "Conscience", amount: 10, icon: Eye, color: "var(--benin-green)" },
@@ -111,15 +111,14 @@ export function Tokens() {
             <div className="relative w-[360px] h-[360px] flex items-center justify-center">
               <CircularRing current={CURRENT} total={TOTAL} size={360} />
 
-              {/* 3D Bronze placeholder */}
+              {/* Porte du Retour at the heart of the altar */}
               <div className="absolute inset-12 rounded-full overflow-hidden border border-zinc-200 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)]">
                 <img
-                  src={treasureMask}
-                  alt="Benin Bronze"
+                  src={porteDuRetour}
+                  alt="La Porte du Retour"
                   className="w-full h-full object-cover"
-                  style={{ filter: "contrast(1.05) saturate(0.9)" }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-tr from-black/30 via-transparent to-white/20" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-black/10 via-transparent to-white/10" />
               </div>
             </div>
 
