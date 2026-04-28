@@ -51,9 +51,7 @@ function CircularRing({ current, total, size = 360 }: { current: number; total: 
 export function Tokens() {
   return (
     <section id="altar" className="relative py-32 px-6 bg-white border-t border-zinc-100 overflow-hidden">
-      {/* Soft glow */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full opacity-[0.06] blur-3xl pointer-events-none"
-           style={{ background: "conic-gradient(from 0deg, var(--benin-green), var(--benin-yellow), var(--benin-red), var(--benin-green))" }} />
+      {/* clean white background */}
 
       <div className="relative max-w-6xl mx-auto">
         <motion.div
