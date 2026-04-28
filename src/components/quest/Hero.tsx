@@ -15,13 +15,6 @@ export function Hero() {
         }}
       />
 
-      {/* Floating Benin color glows */}
-      <div className="absolute top-[15%] left-[10%] w-72 h-72 rounded-full opacity-20 blur-3xl"
-           style={{ background: "var(--benin-green)" }} />
-      <div className="absolute bottom-[10%] right-[8%] w-80 h-80 rounded-full opacity-20 blur-3xl"
-           style={{ background: "var(--benin-yellow)" }} />
-      <div className="absolute top-[45%] right-[35%] w-56 h-56 rounded-full opacity-10 blur-3xl"
-           style={{ background: "var(--benin-red)" }} />
 
       <motion.div
         initial={{ opacity: 0, y: 24 }}
