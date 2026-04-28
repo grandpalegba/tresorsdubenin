@@ -163,7 +163,23 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Tangerine:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Geist:wght@300;400;500;600;700;800;900&display=swap");
+
+:root {
+  --font-display: "Geist", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mystic: "Geist", "Inter", system-ui, sans-serif;
+
+  /* Black To Benin — palette minimaliste */
+  --btb-zinc-50: oklch(0.985 0 0);
+  --btb-zinc-100: oklch(0.96 0 0);
+  --btb-zinc-200: oklch(0.92 0 0);
+  --btb-zinc-300: oklch(0.86 0 0);
+  --btb-zinc-500: oklch(0.55 0 0);
+  --btb-zinc-700: oklch(0.32 0 0);
+  --btb-zinc-900: oklch(0.16 0 0);
+  --btb-ink: oklch(0.10 0 0);
+}
 
 @layer base {
   * {
