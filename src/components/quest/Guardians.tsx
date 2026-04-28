@@ -1,138 +1,148 @@
 import { motion } from "framer-motion";
-import legbaPortrait from "@/assets/deity-legba.jpg";
-import wataPortrait from "@/assets/deity-wata.jpg";
-import heviossoPortrait from "@/assets/deity-heviosso.jpg";
-import sakpataPortrait from "@/assets/deity-sakpata.jpg";
-import guPortrait from "@/assets/deity-gu.jpg";
-import minonaPortrait from "@/assets/deity-minona.jpg";
-import legbaEmblem from "@/assets/emblem-legba.png";
-import wataEmblem from "@/assets/emblem-wata.png";
-import heviossoEmblem from "@/assets/emblem-heviosso.png";
-import sakpataEmblem from "@/assets/emblem-sakpata.png";
-import guEmblem from "@/assets/emblem-gu.png";
-import minonaEmblem from "@/assets/emblem-minona.png";
+import { Key, Hammer, Waves, Zap, Mountain, Heart, Check } from "lucide-react";
 
-const DEITIES = [
-  {
-    name: "GrandPa Legba",
-    domain: "Gardien des Seuils",
-    phase: "Phase I — Ouverture des Voies",
-    blessing: "Sans sa clé, aucune porte ne s'ouvre. Il bénit le commencement.",
-    portrait: legbaPortrait,
-    emblem: legbaEmblem,
-  },
-  {
-    name: "Abuela Wata",
-    domain: "Souveraine des Eaux",
-    phase: "Phase II — Traversée des Mers",
-    blessing: "Elle apaise l'océan et guide le trésor à travers les marées du temps.",
-    portrait: wataPortrait,
-    emblem: wataEmblem,
-  },
-  {
-    name: "Avô Heviosso",
-    domain: "Maître du Tonnerre",
-    phase: "Phase III — Force du Réveil",
-    blessing: "Sa foudre frappe l'injustice et électrifie la quête d'une énergie sacrée.",
-    portrait: heviossoPortrait,
-    emblem: heviossoEmblem,
-  },
-  {
-    name: "Baba Sakpata",
-    domain: "Gardien de la Terre",
-    phase: "Phase IV — Enracinement",
-    blessing: "Il ancre la négociation. Sa lance protège ce qui appartient au sol.",
-    portrait: sakpataPortrait,
-    emblem: sakpataEmblem,
-  },
-  {
-    name: "Babu Gu",
-    domain: "Forgeron du Destin",
-    phase: "Phase V — Forge du Voyage",
-    blessing: "Son marteau scelle le pacte. Le métal du trésor reconnaît sa flamme.",
-    portrait: guPortrait,
-    emblem: guEmblem,
-  },
-  {
-    name: "Nonna Minona",
-    domain: "Mère Protectrice",
-    phase: "Phase VI — Retour & Bénédiction",
-    blessing: "Elle accueille le trésor à la maison. Son cœur referme le cycle sacré.",
-    portrait: minonaPortrait,
-    emblem: minonaEmblem,
-  },
+const GUARDIANS = [
+  { phase: "I", name: "GrandPa Legba", role: "L'Ouverture", desc: "Réponse à l'appel", icon: Key, done: true },
+  { phase: "II", name: "Babu Gu", role: "L'Avancée", desc: "Force sur le chemin", icon: Hammer, done: true },
+  { phase: "III", name: "Abuela Wata", role: "La Traversée", desc: "Voyage transatlantique inverse", icon: Waves, done: true, current: true },
+  { phase: "IV", name: "Avô Heviosso", role: "Le Ciel", desc: "Justice et foudre purificatrice", icon: Zap, done: false },
+  { phase: "V", name: "Baba Sakpata", role: "L'Ancrage", desc: "Raffinement sur la terre du Bénin", icon: Mountain, done: false },
+  { phase: "VI", name: "Nonna Minona", role: "La Bénédiction", desc: "Passage de la Porte du Retour", icon: Heart, done: false },
 ];
 
 export function Guardians() {
-  return (
-    <section className="relative py-32 px-6 overflow-hidden bg-white">
+  const currentIdx = GUARDIANS.findIndex((g) => g.current);
+  const progress = ((currentIdx + 1) / GUARDIANS.length) * 100;
 
+  return (
+    <section className="relative py-32 px-6 bg-white border-t border-zinc-100 overflow-hidden">
       <div className="relative max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          transition={{ duration: 0.7 }}
+          className="max-w-3xl mb-20"
         >
-          <span className="text-xs uppercase tracking-[0.4em] text-[var(--gold)] font-display">
-            ✦ La Validation Sacrée ✦
-          </span>
-          <h2 className="font-display text-4xl md:text-6xl font-semibold mt-6 mb-6">
-            <span className="gradient-gold-text">Les Six Entités Gardiennes</span>
+          <div className="text-[11px] uppercase tracking-[0.3em] text-zinc-500 font-medium mb-5">
+            Le Chemin des 6 Guides
+          </div>
+          <h2 className="font-display text-4xl md:text-6xl font-semibold tracking-tight text-zinc-950 leading-[1.05]">
+            Les Forces Compagnes.
           </h2>
-          <p className="font-body text-lg text-[var(--muted-foreground)] max-w-3xl mx-auto italic leading-relaxed">
-            À chaque étape du voyage, une divinité tutélaire doit valider le passage.
-            <span className="text-[var(--gold)] not-italic"> Sans leur bénédiction, le trésor ne peut avancer.</span>
+          <p className="mt-6 text-lg text-zinc-600 max-w-2xl font-light leading-relaxed">
+            Chaque groupe de 60 appels active l'influence d'une divinité qui protège une étape du retour.
+            Six bénédictions pour franchir la Porte.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {DEITIES.map((deity, idx) => (
-            <motion.article
-              key={deity.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: (idx % 3) * 0.1 }}
-              className="group relative"
-            >
-              <div className="relative overflow-hidden rounded-sm border border-[var(--gold)]/20 bg-[var(--card)] shadow-mystic transition-all duration-500 hover:border-[var(--gold)]/60 hover:-translate-y-1">
-                {/* Portrait */}
-                <div className="relative aspect-[4/5] overflow-hidden">
-                  <img
-                    src={deity.portrait}
-                    alt={deity.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--abyss)] via-[var(--abyss)]/30 to-transparent" />
+        {/* Horizontal timeline — desktop */}
+        <div className="hidden md:block relative">
+          {/* Base line */}
+          <div className="absolute top-8 left-0 right-0 h-px bg-zinc-200" />
+          {/* Progress line */}
+          <motion.div
+            initial={{ width: 0 }}
+            whileInView={{ width: `${progress}%` }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.6, ease: "easeOut" }}
+            className="absolute top-8 left-0 h-px"
+            style={{
+              background:
+                "linear-gradient(90deg, var(--benin-green), var(--benin-yellow), var(--benin-red))",
+            }}
+          />
 
-                  {/* Floating emblem */}
-                  <div className="absolute top-5 right-5 w-16 h-16 rounded-full bg-[var(--abyss)]/70 backdrop-blur-sm border border-[var(--gold)]/40 p-2 animate-float">
-                    <img src={deity.emblem} alt="" className="w-full h-full object-contain" />
+          <div className="grid grid-cols-6 gap-4 relative">
+            {GUARDIANS.map((g, idx) => {
+              const Icon = g.icon;
+              return (
+                <motion.div
+                  key={g.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  className="relative flex flex-col items-center text-center"
+                >
+                  {/* Node */}
+                  <div
+                    className={`relative w-16 h-16 rounded-full border-2 flex items-center justify-center transition-all duration-500 bg-white ${
+                      g.current
+                        ? "scale-110"
+                        : ""
+                    }`}
+                    style={{
+                      borderColor: g.done
+                        ? "var(--benin-green)"
+                        : "oklch(0.86 0 0)",
+                      background: g.done && !g.current ? "var(--benin-green)" : g.current ? "white" : "white",
+                      boxShadow: g.current
+                        ? "0 0 0 6px color-mix(in oklab, var(--benin-yellow) 25%, transparent), 0 0 30px color-mix(in oklab, var(--benin-yellow) 40%, transparent)"
+                        : "none",
+                    }}
+                  >
+                    {g.done && !g.current ? (
+                      <Check className="w-5 h-5 text-white" strokeWidth={3} />
+                    ) : (
+                      <Icon
+                        className="w-5 h-5"
+                        strokeWidth={1.5}
+                        style={{ color: g.current ? "var(--benin-red)" : "oklch(0.45 0 0)" }}
+                      />
+                    )}
                   </div>
 
-                  {/* Phase ribbon */}
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)] font-display bg-[var(--abyss)]/70 backdrop-blur-sm border border-[var(--gold)]/30 px-3 py-1.5 inline-block">
-                      {deity.phase}
-                    </div>
+                  <div className="mt-5 text-[10px] uppercase tracking-[0.25em] text-zinc-400 font-mono">
+                    Phase {g.phase}
                   </div>
+                  <div className="mt-1 font-display text-base font-semibold text-zinc-950">
+                    {g.name}
+                  </div>
+                  <div className="text-xs text-zinc-500 mt-1">{g.role}</div>
+                  <div className="text-[11px] text-zinc-400 mt-2 font-light leading-snug max-w-[140px]">
+                    {g.desc}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Mobile stacked timeline */}
+        <div className="md:hidden space-y-4">
+          {GUARDIANS.map((g, idx) => {
+            const Icon = g.icon;
+            return (
+              <motion.div
+                key={g.name}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: idx * 0.05 }}
+                className="flex items-center gap-4 p-4 rounded-2xl border border-zinc-100"
+              >
+                <div
+                  className="w-12 h-12 rounded-full border-2 flex items-center justify-center shrink-0"
+                  style={{
+                    borderColor: g.done ? "var(--benin-green)" : "oklch(0.86 0 0)",
+                    background: g.done && !g.current ? "var(--benin-green)" : "white",
+                  }}
+                >
+                  {g.done && !g.current ? (
+                    <Check className="w-4 h-4 text-white" strokeWidth={3} />
+                  ) : (
+                    <Icon className="w-4 h-4 text-zinc-700" strokeWidth={1.5} />
+                  )}
                 </div>
-
-                {/* Content */}
-                <div className="p-6 space-y-3">
-                  <h3 className="font-display text-2xl text-parchment">{deity.name}</h3>
-                  <div className="text-[11px] uppercase tracking-[0.25em] text-[var(--gold)]/80 font-display">
-                    {deity.domain}
-                  </div>
-                  <p className="font-body text-sm italic text-[var(--muted-foreground)] leading-relaxed pt-2 border-t border-[var(--gold)]/10">
-                    « {deity.blessing} »
-                  </p>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-zinc-400">Phase {g.phase} · {g.role}</div>
+                  <div className="font-display text-base font-semibold text-zinc-950">{g.name}</div>
+                  <div className="text-xs text-zinc-500 mt-0.5">{g.desc}</div>
                 </div>
-              </div>
-            </motion.article>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
