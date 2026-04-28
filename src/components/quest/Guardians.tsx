@@ -1,19 +1,23 @@
 import { motion } from "framer-motion";
-import { Key, Hammer, Waves, Zap, Mountain, Heart, Check } from "lucide-react";
+import { Check } from "lucide-react";
+import deityLegba from "@/assets/deity-legba.jpg";
+import deityGu from "@/assets/deity-gu.jpg";
+import deityWata from "@/assets/deity-wata.jpg";
+import deityHeviosso from "@/assets/deity-heviosso.jpg";
+import deitySakpata from "@/assets/deity-sakpata.jpg";
+import deityMinona from "@/assets/deity-minona.jpg";
+import blackHorse from "@/assets/black-horse.png";
 
 const GUARDIANS = [
-  { phase: "I", name: "GrandPa Legba", role: "L'Ouverture", desc: "Réponse à l'appel", icon: Key, done: true },
-  { phase: "II", name: "Babu Gu", role: "L'Avancée", desc: "Force sur le chemin", icon: Hammer, done: true },
-  { phase: "III", name: "Abuela Wata", role: "La Traversée", desc: "Voyage transatlantique inverse", icon: Waves, done: true, current: true },
-  { phase: "IV", name: "Avô Heviosso", role: "Le Ciel", desc: "Justice et foudre purificatrice", icon: Zap, done: false },
-  { phase: "V", name: "Baba Sakpata", role: "L'Ancrage", desc: "Raffinement sur la terre du Bénin", icon: Mountain, done: false },
-  { phase: "VI", name: "Nonna Minona", role: "La Bénédiction", desc: "Passage de la Porte du Retour", icon: Heart, done: false },
+  { phase: "I", name: "GrandPa Legba", role: "L'Ouverture", desc: "Réponse à l'appel", img: deityLegba, done: true },
+  { phase: "II", name: "Babu Gu", role: "L'Avancée", desc: "Force sur le chemin", img: deityGu, done: true },
+  { phase: "III", name: "Abuela Wata", role: "La Traversée", desc: "Voyage transatlantique inverse", img: deityWata, done: true, current: true },
+  { phase: "IV", name: "Avô Heviosso", role: "Le Ciel", desc: "Justice et foudre purificatrice", img: deityHeviosso, done: false },
+  { phase: "V", name: "Baba Sakpata", role: "L'Ancrage", desc: "Raffinement sur la terre du Bénin", img: deitySakpata, done: false },
+  { phase: "VI", name: "Nonna Minona", role: "La Bénédiction", desc: "Passage de la Porte du Retour", img: deityMinona, done: false },
 ];
 
 export function Guardians() {
-  const currentIdx = GUARDIANS.findIndex((g) => g.current);
-  const progress = ((currentIdx + 1) / GUARDIANS.length) * 100;
-
   return (
     <section className="relative py-32 px-6 bg-white border-t border-zinc-100 overflow-hidden">
       <div className="relative max-w-7xl mx-auto">
@@ -32,30 +36,14 @@ export function Guardians() {
           </h2>
           <p className="mt-6 text-lg text-zinc-600 max-w-2xl font-light leading-relaxed">
             Chaque groupe de 60 appels active l'influence d'une divinité qui protège une étape du retour.
-            Six bénédictions pour franchir la Porte.
+            Le cheval noir suit la divinité en cours — il porte la marche du peuple vers la Porte.
           </p>
         </motion.div>
 
-        {/* Horizontal timeline — desktop */}
-        <div className="hidden md:block relative">
-          {/* Base line */}
-          <div className="absolute top-8 left-0 right-0 h-px bg-zinc-200" />
-          {/* Progress line */}
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: `${progress}%` }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.6, ease: "easeOut" }}
-            className="absolute top-8 left-0 h-px"
-            style={{
-              background:
-                "linear-gradient(90deg, var(--benin-green), var(--benin-yellow), var(--benin-red))",
-            }}
-          />
-
+        {/* Desktop timeline */}
+        <div className="hidden md:block relative pt-20">
           <div className="grid grid-cols-6 gap-4 relative">
             {GUARDIANS.map((g, idx) => {
-              const Icon = g.icon;
               return (
                 <motion.div
                   key={g.name}
@@ -65,31 +53,47 @@ export function Guardians() {
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   className="relative flex flex-col items-center text-center"
                 >
-                  {/* Node */}
+                  {/* Black horse marker above current step */}
+                  {g.current && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, delay: 0.5 }}
+                      className="absolute -top-20 left-1/2 -translate-x-1/2 flex flex-col items-center"
+                    >
+                      <img src={blackHorse} alt="Cheval du Retour" className="w-20 h-auto drop-shadow-md" />
+                      <div
+                        className="w-px h-3"
+                        style={{ background: "var(--benin-red)" }}
+                      />
+                    </motion.div>
+                  )}
+
+                  {/* Deity portrait node */}
                   <div
-                    className={`relative w-16 h-16 rounded-full border-2 flex items-center justify-center transition-all duration-500 bg-white ${
-                      g.current
-                        ? "scale-110"
-                        : ""
+                    className={`relative w-24 h-24 rounded-full overflow-hidden border-2 transition-all duration-500 ${
+                      g.current ? "scale-110" : ""
                     }`}
                     style={{
                       borderColor: g.done
                         ? "var(--benin-green)"
                         : "oklch(0.86 0 0)",
-                      background: g.done && !g.current ? "var(--benin-green)" : g.current ? "white" : "white",
                       boxShadow: g.current
-                        ? "0 0 0 6px color-mix(in oklab, var(--benin-yellow) 25%, transparent), 0 0 30px color-mix(in oklab, var(--benin-yellow) 40%, transparent)"
+                        ? "0 0 0 6px color-mix(in oklab, var(--benin-yellow) 30%, transparent), 0 0 40px color-mix(in oklab, var(--benin-yellow) 50%, transparent)"
+                        : g.done
+                        ? "0 6px 16px -8px color-mix(in oklab, var(--benin-green) 60%, transparent)"
                         : "none",
                     }}
                   >
-                    {g.done && !g.current ? (
-                      <Check className="w-5 h-5 text-white" strokeWidth={3} />
-                    ) : (
-                      <Icon
-                        className="w-5 h-5"
-                        strokeWidth={1.5}
-                        style={{ color: g.current ? "var(--benin-red)" : "oklch(0.45 0 0)" }}
-                      />
+                    <img src={g.img} alt={g.name} className="w-full h-full object-cover" />
+                    {!g.done && !g.current && (
+                      <div className="absolute inset-0 bg-white/55" />
+                    )}
+                    {g.done && !g.current && (
+                      <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full flex items-center justify-center border-2 border-white" style={{ background: "var(--benin-green)" }}>
+                        <Check className="w-3.5 h-3.5 text-white" strokeWidth={3} />
+                      </div>
                     )}
                   </div>
 
@@ -112,7 +116,6 @@ export function Guardians() {
         {/* Mobile stacked timeline */}
         <div className="md:hidden space-y-4">
           {GUARDIANS.map((g, idx) => {
-            const Icon = g.icon;
             return (
               <motion.div
                 key={g.name}
@@ -120,26 +123,36 @@ export function Guardians() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: idx * 0.05 }}
-                className="flex items-center gap-4 p-4 rounded-2xl border border-zinc-100"
+                className={`relative flex items-center gap-4 p-4 rounded-2xl border ${
+                  g.current ? "border-zinc-300 bg-zinc-50" : "border-zinc-100"
+                }`}
               >
+                {g.current && (
+                  <img
+                    src={blackHorse}
+                    alt="Cheval du Retour"
+                    className="absolute -top-6 -right-2 w-14 h-auto drop-shadow"
+                  />
+                )}
                 <div
-                  className="w-12 h-12 rounded-full border-2 flex items-center justify-center shrink-0"
+                  className="relative w-14 h-14 rounded-full overflow-hidden border-2 shrink-0"
                   style={{
                     borderColor: g.done ? "var(--benin-green)" : "oklch(0.86 0 0)",
-                    background: g.done && !g.current ? "var(--benin-green)" : "white",
                   }}
                 >
-                  {g.done && !g.current ? (
-                    <Check className="w-4 h-4 text-white" strokeWidth={3} />
-                  ) : (
-                    <Icon className="w-4 h-4 text-zinc-700" strokeWidth={1.5} />
-                  )}
+                  <img src={g.img} alt={g.name} className="w-full h-full object-cover" />
+                  {!g.done && !g.current && <div className="absolute inset-0 bg-white/55" />}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-[10px] uppercase tracking-[0.2em] text-zinc-400">Phase {g.phase} · {g.role}</div>
                   <div className="font-display text-base font-semibold text-zinc-950">{g.name}</div>
                   <div className="text-xs text-zinc-500 mt-0.5">{g.desc}</div>
                 </div>
+                {g.done && !g.current && (
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: "var(--benin-green)" }}>
+                    <Check className="w-3.5 h-3.5 text-white" strokeWidth={3} />
+                  </div>
+                )}
               </motion.div>
             );
           })}
